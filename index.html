@@ -85,12 +85,6 @@
         --stats-count-size: clamp(3.4rem, 7vw, 5.4rem);
         --stats-status-size: clamp(1.75rem, 3vw, 2.35rem);
         --stats-pulse-duration: 1.8s;
-        --about-section-padding: clamp(2rem, 5vw, 5rem);
-        --about-number-size: clamp(7rem, 18vw, 15rem);
-        --about-heading-size: clamp(3rem, 6.6vw, 7rem);
-        --about-progress-height: clamp(10rem, 30vh, 17rem);
-        --about-slide-height: clamp(23rem, 52vh, 35rem);
-        --about-mobile-slide-height: clamp(26rem, 67svh, 36rem);
         --font-ui: "Inter", "Tahoma", sans-serif;
         --font-mark: "Bebas Neue", Impact, sans-serif;
       }
@@ -730,229 +724,89 @@
         }
       }
 
-      #about {
-        position: relative;
-        min-height: auto;
-        padding-inline: var(--page-gutter);
-        background: var(--ink);
+
+      /* ---------- About page ---------- */
+      #about { position: relative; padding-inline: var(--page-gutter); background: var(--ink); }
+      .about-wrap { width: min(100%, 76rem); margin-inline: auto; }
+
+      .about-intro { position: relative; padding-block-end: clamp(2.5rem, 6vw, 4.5rem); }
+      .about-title {
+        position: relative; z-index: 1; max-width: 13em; margin: 0;
+        font-family: var(--font-mark); font-size: clamp(2.8rem, 7.4vw, 6.4rem);
+        font-weight: 400; letter-spacing: 0.02em; line-height: 0.95; text-wrap: balance;
       }
-
-      .about-pin {
-        position: relative;
-        display: grid;
-        width: 100%;
-        min-height: calc(100svh - var(--nav-height));
-        place-items: center;
+      .about-lead {
+        position: relative; z-index: 1; max-width: 46ch; margin: var(--space-4) 0 0;
+        color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.85;
       }
-
-      .about-slide-track {
-        position: relative;
-        width: min(calc(100% - 3rem), 72rem);
-        margin-inline: auto;
+      /* Crosshair: pure CSS, static, costs nothing on weak devices */
+      .about-reticle {
+        position: absolute; inset-block-start: 50%; inset-inline-end: clamp(0rem, 3vw, 3rem);
+        width: clamp(9rem, 22vw, 17rem); aspect-ratio: 1; translate: 0 -50%;
+        border: 1px solid var(--line-strong); border-radius: 50%; pointer-events: none;
+        background:
+          linear-gradient(var(--accent), var(--accent)) center / 2px 38% no-repeat,
+          linear-gradient(var(--accent), var(--accent)) center / 38% 2px no-repeat;
+        opacity: 0.55;
       }
+      .about-reticle::before, .about-reticle::after { position: absolute; content: ""; border-radius: 50%; }
+      .about-reticle::before { inset: 22%; border: 1px dashed var(--line-strong); }
+      .about-reticle::after { inset: 47%; background: var(--ink); border: 2px solid var(--accent); }
 
-      .about-slide {
-        display: grid;
-        min-height: var(--about-slide-height);
-        grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
-        align-items: center;
-        gap: clamp(1.5rem, 5vw, 5rem);
-        padding-block: var(--about-section-padding);
-        border-bottom: 1px solid var(--line);
+      .about-points { border-block-end: 1px solid var(--line); }
+      .about-point {
+        position: relative; display: grid; align-items: start;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr) 10.5rem;
+        gap: clamp(1rem, 4vw, 3.5rem); padding: clamp(1.4rem, 3vw, 2.2rem) var(--space-3);
+        border-block-start: 1px solid var(--line); transition: background-color 220ms ease;
       }
-
-      .about-slide:first-child {
-        border-top: 1px solid var(--line);
+      .about-point::before {
+        position: absolute; inset-block: -1px; inset-inline-start: 0; width: 3px; content: "";
+        background: var(--accent); transform: scaleY(0); transform-origin: top; transition: transform 260ms ease;
       }
-
-      .about-slide-track.is-pinned {
-        height: var(--about-slide-height);
-        min-height: 23rem;
+      .about-point:hover, .about-point:focus-within { background: rgba(255, 106, 19, 0.05); }
+      .about-point:hover::before, .about-point:focus-within::before { transform: scaleY(1); }
+      .about-point h3 { margin: 0; font-family: var(--font-mark); font-size: clamp(1.9rem, 3.4vw, 2.9rem); font-weight: 400; letter-spacing: 0.03em; line-height: 1; }
+      .about-point p { max-width: 52ch; margin: 0; color: var(--muted); font-size: clamp(0.95rem, 1.2vw, 1.05rem); line-height: 1.85; }
+      .about-point a {
+        align-self: center; justify-self: end; padding-block: 0.35rem; border-block-end: 1px solid var(--accent);
+        color: var(--paper); font-size: 0.85rem; font-weight: 600; white-space: nowrap; transition: color 180ms ease;
       }
+      .about-point a:hover, .about-point a:focus-visible { color: var(--accent); }
 
-      .about-slide-track.is-pinned .about-slide {
-        position: absolute;
-        inset: 0;
-        min-height: 0;
-        padding-block: 0;
-        border: 0;
+      .about-start { padding-block-start: clamp(3rem, 7vw, 5.5rem); }
+      .about-start-title { margin: 0 0 var(--space-5); font-family: var(--font-mark); font-size: clamp(2.1rem, 4.4vw, 3.6rem); font-weight: 400; letter-spacing: 0.03em; line-height: 1; }
+      .about-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); margin: 0; padding: 0; list-style: none; }
+      .about-step { padding-block-start: var(--space-3); border-block-start: 2px solid var(--line-strong); }
+      .about-step:last-child { border-block-start-color: var(--accent); }
+      .about-step-n { display: block; width: fit-content; unicode-bidi: isolate; direction: ltr; margin-block-end: var(--space-2); color: var(--accent); font-family: var(--font-mark); font-size: clamp(3.4rem, 6vw, 5rem); line-height: 0.85; text-align: start; }
+      .about-step h4 { margin: 0; font-size: 1.1rem; font-weight: 700; line-height: 1.4; }
+      .about-step p { margin: var(--space-1) 0 0; color: var(--muted); font-size: 0.95rem; line-height: 1.8; }
+
+      .about-cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); padding-block-start: clamp(2.5rem, 6vw, 4rem); }
+      .about-cta-btn {
+        display: inline-flex; min-height: 3rem; align-items: center; padding-inline: 1.7rem;
+        background: var(--accent); color: var(--ink); font-size: 0.95rem; font-weight: 700;
+        transition: background-color 180ms ease, transform 180ms ease;
       }
+      .about-cta-btn:hover, .about-cta-btn:focus-visible { background: #ff8a3d; transform: translateY(-2px); }
+      .about-cta-btn:focus-visible, .about-point a:focus-visible { outline: 2px solid var(--paper); outline-offset: 4px; }
+      .about-cta-note { margin: 0; color: var(--muted); font-size: 0.9rem; }
 
-      .about-number {
-        color: var(--accent);
-        direction: ltr;
-        font-family: var(--font-mark);
-        font-size: var(--about-number-size);
-        font-weight: 400;
-        line-height: 0.75;
-        opacity: 0.65;
+      /* Arabic: no letter-spacing (it breaks joined letters) and a real Arabic-capable face */
+      html[lang="ar"] .about-title, html[lang="ar"] .about-point h3, html[lang="ar"] .about-start-title { font-family: var(--font-ui); font-weight: 800; letter-spacing: 0; line-height: 1.2; }
+      html[lang="ar"] .about-title { line-height: 1.15; font-size: clamp(2.4rem, 6.2vw, 5.2rem); }
+      html[lang="ar"] .about-point h3 { font-size: clamp(1.45rem, 2.6vw, 2.1rem); }
+      html[lang="ar"] .about-start-title { font-size: clamp(1.8rem, 3.6vw, 2.9rem); }
+
+      @media (max-width: 860px) {
+        .about-point { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+        .about-point a { justify-self: start; margin-block-start: var(--space-1); }
+        .about-steps { grid-template-columns: minmax(0, 1fr); }
+        .about-reticle { opacity: 0.22; inset-inline-end: -2rem; }
       }
+      @media (max-width: 520px) { .about-reticle { display: none; } }
 
-      .about-copy {
-        max-width: 44rem;
-      }
-
-      .about-headline {
-        margin: 0;
-        color: var(--paper);
-        font-family: var(--font-mark);
-        font-size: var(--about-heading-size);
-        font-weight: 400;
-        letter-spacing: 0.015em;
-        line-height: 0.9;
-        text-wrap: balance;
-      }
-
-      .about-description {
-        max-width: 40ch;
-        margin: var(--space-4) 0 0;
-        color: var(--muted);
-        font-size: clamp(0.95rem, 1.35vw, 1.15rem);
-        line-height: 1.8;
-      }
-
-      .about-progress {
-        position: absolute;
-        z-index: 2;
-        top: 50%;
-        inset-inline-end: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: var(--space-2);
-        transform: translateY(-50%);
-      }
-
-      .about-progress-track {
-        position: relative;
-        width: 2px;
-        height: var(--about-progress-height);
-        overflow: hidden;
-        background: var(--line-strong);
-      }
-
-      .about-progress-fill {
-        position: absolute;
-        inset: 0;
-        background: var(--accent);
-        transform: scaleY(0);
-        transform-origin: top center;
-      }
-
-      .about-progress-index {
-        color: var(--muted);
-        direction: ltr;
-        font-family: var(--font-mark);
-        font-size: 0.75rem;
-        white-space: nowrap;
-      }
-
-      .about-slide-track.is-static + .about-progress {
-        display: none;
-      }
-
-      @media (max-width: 900px) and (min-width: 701px) {
-        .about-slide-track {
-          width: min(calc(100% - 2.5rem), 72rem);
-        }
-
-        .about-slide {
-          grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.45fr);
-          gap: var(--space-4);
-        }
-
-        .about-number {
-          font-size: clamp(6.5rem, 17vw, 10rem);
-        }
-      }
-
-      @media (max-width: 700px) {
-        #about {
-          padding-block: var(--about-section-padding);
-        }
-
-        .about-pin {
-          display: block;
-          min-height: 0;
-        }
-
-        .about-slide-track {
-          width: 100%;
-        }
-
-        .about-slide-track.is-carousel {
-          display: flex;
-          gap: var(--space-3);
-          overflow-x: auto;
-          overscroll-behavior-inline: contain;
-          scroll-snap-type: x mandatory;
-          scrollbar-width: none;
-          direction: ltr;
-        }
-
-        .about-slide-track.is-carousel::-webkit-scrollbar {
-          display: none;
-        }
-
-        .about-slide-track.is-carousel .about-slide {
-          flex: 0 0 100%;
-          min-width: 0;
-          min-height: var(--about-mobile-slide-height);
-          grid-template-columns: minmax(0, 0.45fr) minmax(0, 1fr);
-          gap: var(--space-3);
-          padding: var(--space-4);
-          border: 1px solid var(--line);
-          scroll-snap-align: start;
-          scroll-snap-stop: always;
-        }
-
-        html[dir="rtl"] .about-slide-track.is-carousel .about-slide {
-          direction: rtl;
-        }
-
-        html[dir="ltr"] .about-slide-track.is-carousel .about-slide {
-          direction: ltr;
-        }
-
-        .about-slide-track.is-carousel .about-number {
-          font-size: clamp(4.5rem, 20vw, 7rem);
-        }
-
-        .about-slide-track.is-carousel .about-headline {
-          font-size: clamp(2.4rem, 10vw, 3.8rem);
-        }
-
-        .about-slide-track.is-carousel .about-description {
-          margin-top: var(--space-3);
-          font-size: 0.9rem;
-        }
-
-        .about-progress {
-          position: relative;
-          inset: auto;
-          flex-direction: row;
-          gap: var(--space-3);
-          margin-block-start: var(--space-4);
-          transform: none;
-        }
-
-        .about-progress-track {
-          width: auto;
-          height: 2px;
-          flex: 1;
-        }
-
-        .about-progress-fill {
-          transform: scaleX(0);
-          transform-origin: left center;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) and (min-width: 701px) {
-        .about-progress {
-          display: none;
-        }
-      }
 
       @keyframes hero-glitch-top {
         0%, 100% { transform: translate(0, 0); }
@@ -1095,30 +949,6 @@
       }
 
 
-      /* Normal scrolling About section (no pinning) */
-      #about { padding-block: clamp(4rem, 10vw, 8rem); }
-      .about-pin { display: block; min-height: 0; }
-      .about-slide-track { display: grid; gap: var(--space-4); width: min(100%, 72rem); }
-      .about-slide {
-        grid-template-columns: minmax(0, 1fr);
-        min-height: 0;
-        gap: 0;
-        padding: clamp(1.6rem, 4vw, 3rem);
-        border: 1px solid var(--line);
-        border-inline-start: 3px solid var(--accent);
-        background: var(--stats-card-surface);
-        transition: border-color 220ms ease, background-color 220ms ease;
-      }
-      .about-slide:first-child { border-top: 1px solid var(--line); }
-      .about-slide:hover { background: rgba(255, 106, 19, 0.06); }
-      .about-slide:nth-child(2) { margin-inline-start: clamp(0rem, 9vw, 8rem); }
-      .about-slide:nth-child(3) { margin-inline-end: clamp(0rem, 9vw, 8rem); }
-      .about-headline { font-size: clamp(2.4rem, 5vw, 4.25rem); }
-      .about-description { max-width: 46ch; }
-      .about-progress { display: none; }
-      @media (max-width: 700px) {
-        .about-slide:nth-child(n) { margin-inline: 0; }
-      }
 
       /* Clips, leaderboard, join */
       #clips, #leaderboard, #join { min-height: auto; padding: clamp(3.5rem, 9vw, 7rem) var(--page-gutter) 0; background: var(--ink); }
@@ -1201,6 +1031,9 @@
         .nav-shell .brand { flex: 1 1 0; justify-content: flex-end; }
         .nav-shell .desktop-nav { flex: 0 0 auto; }
         .nav-shell .nav-actions { flex: 1 1 0; justify-content: flex-end; }
+        /* English (LTR): logo hugs the left edge, Arabic (RTL): it hugs the right edge */
+        html[dir="ltr"] .nav-shell .brand { justify-content: flex-start; }
+        html[dir="rtl"] .nav-shell .brand { justify-content: flex-end; }
       }
     
       /* Themed scrollbar */
@@ -1211,94 +1044,204 @@
       ::-webkit-scrollbar-thumb:hover { background: #ff8a3d; }
       ::-webkit-scrollbar-button { display: none; height: 0; }
     
-      /* Store (website theme, airy layout) */
-      .st-panel { padding-block: clamp(0.5rem, 2vw, 1rem); }
-      .st-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem; margin-block-end: 2.2rem; border-bottom: 1px solid var(--line); }
-      .st-panel .shop-tabs { margin: 0; gap: 2.2rem; flex-wrap: nowrap; overflow-x: auto; }
-      .st-panel .shop-tab { padding: 0.9rem 0; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
-      .st-panel .shop-tab:hover { color: var(--paper); }
-      .st-panel .shop-tab.is-active { color: var(--accent); border-color: var(--accent); }
-      .st-actions { display: flex; align-items: center; gap: 1.8rem; padding-block: 0.4rem; }
-      .st-search { width: 12rem; padding: 0.4rem 0.1rem; border: 0; border-bottom: 1px solid var(--line-strong); background: transparent; color: var(--paper); font: inherit; font-size: 0.85rem; outline: 0; transition: border-color 0.2s; }
-      .st-search:focus { border-color: var(--accent); }
+      /* ---------- Store ---------- */
+      #shop .block-inner { padding-block-start: clamp(1.25rem, 4vw, 3rem); }
+      .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .st-toolbar {
+        position: sticky; top: var(--nav-height); z-index: 8; display: flex; flex-wrap: wrap; align-items: center;
+        justify-content: space-between; gap: 0.8rem 1.5rem; margin-block-end: var(--space-3); padding-block: 0.85rem;
+        border-bottom: 1px solid var(--line); background: var(--ink);
+      }
+      .st-panel .shop-tabs { display: flex; flex: 1 1 auto; gap: 0.5rem; min-width: 0; margin: 0; padding-block: 2px; overflow-x: auto; scrollbar-width: none; }
+      .st-panel .shop-tabs::-webkit-scrollbar { display: none; }
+      .st-panel .shop-tab {
+        display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 1rem; border: 1px solid var(--line-strong);
+        border-radius: 99px; background: transparent; color: var(--muted); font-size: 0.85rem; font-weight: 600;
+        white-space: nowrap; cursor: pointer; transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+      }
+      .st-panel .shop-tab:hover { border-color: var(--paper); color: var(--paper); }
+      .st-panel .shop-tab.is-active { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+      .st-tab-n { direction: ltr; font-size: 0.7rem; opacity: 0.7; }
+      .st-actions { display: flex; align-items: center; gap: 0.6rem; }
+      .st-field { position: relative; display: flex; align-items: center; }
+      .st-field svg { position: absolute; inset-inline-start: 0.85rem; color: var(--muted); pointer-events: none; }
+      .st-search, .st-sort {
+        height: 2.6rem; border: 1px solid var(--line-strong); border-radius: 99px; background: var(--ink-soft);
+        color: var(--paper); font: inherit; font-size: 0.85rem; outline: 0; transition: border-color 0.2s;
+      }
+      .st-search { width: 13rem; padding-inline: 2.5rem 1rem; }
       .st-search::placeholder { color: var(--muted); }
-      .st-cart-btn { padding: 0.4rem 0; border: 0; background: none; color: var(--paper); font: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: color 0.2s; }
-      .st-cart-btn:hover { color: var(--accent); }
-      .st-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1.5rem; }
-      .st-card { position: relative; display: flex; flex-direction: column; gap: 0.7rem; padding: 1.3rem; border: 1px solid var(--line); border-radius: 14px; background: var(--ink-soft); transition: border-color 0.25s, transform 0.25s; }
-      .st-card:hover { border-color: rgba(255, 106, 19, 0.55); transform: translateY(-3px); }
-      .st-pill { position: absolute; z-index: 1; top: 2rem; inset-inline-start: 2rem; padding: 0.15rem 0.7rem; border: 1px solid var(--line-strong); border-radius: 99px; background: rgba(10, 10, 12, 0.7); color: var(--paper); font-size: 0.66rem; font-weight: 600; }
-      .st-art { display: grid; place-items: center; height: 10rem; margin-block-end: 0.7rem; border: 1px solid var(--line); border-radius: 10px; background: radial-gradient(circle at 50% 45%, rgba(255, 106, 19, 0.22), transparent 68%), var(--ink); color: var(--accent); font-size: 2.6rem; font-weight: 700; }
-      .st-name { margin: 0; font-size: 0.95rem; font-weight: 700; color: var(--paper); }
-      .st-desc { flex: 1; margin: 0; color: var(--muted); font-size: 0.82rem; line-height: 1.8; }
-      .st-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; margin-top: 0.9rem; padding-top: 1rem; border-top: 1px solid var(--line); }
-      .st-price { color: var(--paper); font-size: 0.95rem; font-weight: 700; }
-      .st-price del { margin-inline-start: 0.6rem; color: var(--muted); font-weight: 400; font-size: 0.78rem; }
-      .st-btn { padding: 0.55rem 1.2rem; border: 1px solid var(--accent); border-radius: 99px; background: transparent; color: var(--accent); font: inherit; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-      .st-btn:hover { background: var(--accent); color: var(--ink); }
-      .st-btn-dark { width: 100%; padding: 0.9rem; background: var(--accent); color: var(--ink); }
-      .st-btn-dark:hover { background: #ff8a3d; border-color: #ff8a3d; }
-      .st-empty { margin: 0; padding: 3rem 1rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
-      .st-overlay { position: fixed; inset: 0; z-index: 100; display: flex; justify-content: flex-end; background: rgba(0, 0, 0, 0.6); }
-      .st-overlay[hidden], .st-toast[hidden] { display: none; }
-      .st-drawer { display: flex; flex-direction: column; width: min(25rem, 100%); height: 100%; padding: 1.6rem; overflow-y: auto; border-inline-end: 1px solid var(--line); background: var(--ink); color: var(--paper); }
-      .st-drawer-head { display: flex; align-items: center; justify-content: space-between; margin-block-end: 1.5rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--line); }
-      .st-drawer-head h3 { margin: 0; font-size: 1.05rem; }
-      .st-close { width: 2.2rem; height: 2.2rem; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: inherit; cursor: pointer; }
-      .st-close:hover { border-color: var(--accent); color: var(--accent); }
-      .st-items { display: flex; flex-direction: column; flex: 1; gap: 0.9rem; }
-      .st-item { display: flex; align-items: center; gap: 1rem; padding: 0.9rem; border: 1px solid var(--line); border-radius: 12px; background: var(--ink-soft); }
-      .st-thumb { display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border: 1px solid var(--line); border-radius: 10px; background: var(--ink); color: var(--accent); font-weight: 700; font-size: 0.9rem; }
-      .st-item-info { display: flex; flex: 1; flex-direction: column; gap: 0.3rem; font-size: 0.85rem; }
-      .st-item-info small { color: var(--muted); }
-      .st-qty { display: flex; align-items: center; gap: 0.8rem; margin-top: 0.3rem; }
-      .st-qty button { width: 1.6rem; height: 1.6rem; border: 1px solid var(--line-strong); border-radius: 50%; background: none; color: inherit; cursor: pointer; line-height: 1; }
-      .st-qty button:hover { border-color: var(--accent); color: var(--accent); }
-      .st-cart-empty { margin: auto; color: var(--muted); font-size: 0.95rem; }
-      .st-cart-empty[hidden], .st-drawer-foot[hidden] { display: none; }
-      .st-total { display: flex; justify-content: space-between; padding: 1.2rem 0.2rem; font-size: 1rem; }
-      .st-toast { position: fixed; z-index: 110; bottom: 1.6rem; left: 50%; transform: translateX(-50%); padding: 0.75rem 1.4rem; border: 1px solid var(--accent); border-radius: 99px; background: var(--ink-soft); color: var(--paper); font-size: 0.82rem; }
-      @media (max-width: 640px) { .st-search { width: 8rem; } .st-art { height: 8.5rem; } .st-grid { gap: 1.1rem; } }
-    
-      /* Store: spacing + transitions */
-      #shop .block-inner { padding-block-start: clamp(2.5rem, 7vw, 5rem); }
-      #shop .block-head { margin-block-end: clamp(2rem, 5vw, 3.5rem); gap: 0.8rem; }
-      @keyframes stRise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-      @keyframes stFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-      @keyframes stBump { 40% { transform: scale(1.5); color: var(--accent); } }
-      #shop.is-active .st-bar { animation: stFade 0.6s 0.05s cubic-bezier(0.22, 0.8, 0.2, 1) both; }
-      .st-card { animation: stRise 0.6s cubic-bezier(0.22, 0.8, 0.2, 1) both; }
-      .st-cart-btn b { display: inline-block; }
+      .st-sort { appearance: none; padding-inline: 1rem 2.2rem; cursor: pointer; }
+      .st-sort option { background: #151518; color: var(--paper); }
+      .st-search:focus, .st-sort:focus-visible { border-color: var(--accent); }
+      .st-select::after {
+        position: absolute; inset-inline-end: 1rem; width: 0.42rem; height: 0.42rem; content: "";
+        border-inline-end: 2px solid var(--muted); border-block-end: 2px solid var(--muted);
+        transform: rotate(45deg) translateY(-2px); pointer-events: none;
+      }
+      .st-cart-btn {
+        display: inline-flex; height: 2.6rem; align-items: center; gap: 0.55rem; padding-inline: 1.1rem; border: 1px solid var(--accent);
+        border-radius: 99px; background: transparent; color: var(--accent); font: inherit; font-size: 0.85rem; font-weight: 700;
+        cursor: pointer; transition: background-color 0.2s, color 0.2s;
+      }
+      .st-cart-btn:hover { background: var(--accent); color: var(--ink); }
+      .st-cart-btn b, .st-chip {
+        display: inline-grid; min-width: 1.45rem; height: 1.45rem; place-items: center; padding-inline: 0.3rem; border-radius: 99px;
+        background: var(--accent); color: var(--ink); font-size: 0.75rem; font-weight: 800; direction: ltr;
+      }
+      .st-cart-btn:hover b { background: var(--ink); color: var(--accent); }
       .st-cart-btn b.bump { animation: stBump 0.45s ease; }
-      .st-overlay { opacity: 0; transition: opacity 0.3s ease; }
+      .st-count { margin: 0 0 var(--space-3); color: var(--muted); font-size: 0.8rem; }
+
+      .st-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1rem, 2vw, 1.5rem); }
+      @media (min-width: 560px) { .st-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .st-card.is-featured { grid-column: 1 / -1; } .st-card.is-featured .st-art { aspect-ratio: 21 / 9; } }
+      @media (min-width: 960px) { .st-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+      .st-card {
+        position: relative; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 6px;
+        background: var(--ink-soft); transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+        animation: stRise 0.55s cubic-bezier(0.22, 0.8, 0.2, 1) backwards;
+      }
+      .st-card:hover { border-color: rgba(255, 106, 19, 0.6); box-shadow: 0 18px 40px -20px rgba(255, 106, 19, 0.4); transform: translateY(-4px); }
+      .st-art {
+        position: relative; display: grid; place-items: center; aspect-ratio: 16 / 10; padding: 1.5rem; border-bottom: 1px solid var(--line);
+        background:
+          radial-gradient(circle at 50% 48%, rgba(255, 106, 19, 0.26), transparent 66%),
+          repeating-linear-gradient(0deg, rgba(242, 242, 242, 0.035) 0 1px, transparent 1px 28px),
+          repeating-linear-gradient(90deg, rgba(242, 242, 242, 0.035) 0 1px, transparent 1px 28px), var(--ink);
+      }
+      .st-art svg { display: block; width: 100%; height: 100%; max-width: 15rem; transition: transform 0.4s cubic-bezier(0.22, 0.8, 0.2, 1); }
+      .st-card:hover .st-art svg { transform: scale(1.06); }
+      .st-art::before {
+        position: absolute; inset: 0.5rem; content: ""; opacity: 0.5; pointer-events: none; transition: opacity 0.25s;
+        background:
+          linear-gradient(var(--accent), var(--accent)) top left / 14px 2px no-repeat, linear-gradient(var(--accent), var(--accent)) top left / 2px 14px no-repeat,
+          linear-gradient(var(--accent), var(--accent)) top right / 14px 2px no-repeat, linear-gradient(var(--accent), var(--accent)) top right / 2px 14px no-repeat,
+          linear-gradient(var(--accent), var(--accent)) bottom left / 14px 2px no-repeat, linear-gradient(var(--accent), var(--accent)) bottom left / 2px 14px no-repeat,
+          linear-gradient(var(--accent), var(--accent)) bottom right / 14px 2px no-repeat, linear-gradient(var(--accent), var(--accent)) bottom right / 2px 14px no-repeat;
+      }
+      .st-card:hover .st-art::before { opacity: 1; }
+      .st-tag {
+        position: absolute; z-index: 1; inset-block-start: 1rem; inset-inline-start: 1rem; padding: 0.2rem 0.7rem; border: 1px solid var(--line-strong);
+        border-radius: 99px; background: rgba(10, 10, 12, 0.78); color: var(--paper); font-size: 0.7rem; font-weight: 600;
+      }
+      .st-tag.st-off { inset-inline-start: auto; inset-inline-end: 1rem; border-color: var(--accent); background: var(--accent); color: var(--ink); font-weight: 800; }
+      .st-main { display: flex; flex: 1; flex-direction: column; }
+      .st-body { display: flex; flex: 1; flex-direction: column; gap: 0.5rem; padding: 1.2rem 1.3rem 0; }
+      .st-name { margin: 0; color: var(--paper); font-size: 1.05rem; font-weight: 700; line-height: 1.4; }
+      .st-desc { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.75; }
+      .st-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; padding: 1.1rem 1.3rem 1.3rem; }
+      .st-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.1rem 0.4rem; }
+      .st-num { font-family: var(--font-mark); font-size: 2rem; letter-spacing: 0.02em; line-height: 1; }
+      .st-cur { color: var(--muted); font-size: 0.75rem; font-weight: 600; }
+      .st-old { color: var(--muted); font-size: 0.8rem; }
+      .st-btn {
+        min-height: 2.5rem; padding: 0 1.2rem; border: 1px solid var(--accent); border-radius: 3px; background: var(--accent); color: var(--ink);
+        font: inherit; font-size: 0.82rem; font-weight: 700; white-space: nowrap; cursor: pointer; transition: background-color 0.2s, border-color 0.2s, transform 0.15s;
+      }
+      .st-btn:hover { border-color: #ff8a3d; background: #ff8a3d; }
+      .st-btn:active { transform: scale(0.97); }
+      .st-btn.is-added { border-color: var(--paper); background: var(--paper); }
+      .st-btn-wide { width: 100%; min-height: 3rem; }
+      .st-btn-ghost { background: transparent; color: var(--paper); border-color: var(--line-strong); }
+      .st-btn-ghost:hover { border-color: var(--paper); background: transparent; }
+      .st-btn:focus-visible, .st-cart-btn:focus-visible, .st-fab:focus-visible, .shop-tab:focus-visible, .st-close:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+      .st-empty { margin: 0; padding: 3rem 1rem; color: var(--muted); font-size: 0.95rem; text-align: center; }
+      .st-empty[hidden] { display: none; }
+
+      @media (min-width: 960px) {
+        .st-card.is-featured { grid-column: span 2; flex-direction: row; border-color: rgba(255, 106, 19, 0.45); }
+        .st-card.is-featured .st-art { flex: 1.1; aspect-ratio: auto; min-height: 19rem; border-block-end: 0; border-inline-end: 1px solid var(--line); }
+        .st-card.is-featured .st-art svg { max-width: 19rem; }
+        .st-card.is-featured .st-main { flex: 1; justify-content: center; }
+        .st-card.is-featured .st-body { flex: 0 1 auto; padding: 1.6rem 1.8rem 0; }
+        .st-card.is-featured .st-name { font-size: 1.6rem; }
+        .st-card.is-featured .st-desc { font-size: 0.95rem; }
+        .st-card.is-featured .st-foot { padding: 1.4rem 1.8rem 1.8rem; }
+        .st-card.is-featured .st-num { font-size: 2.6rem; }
+      }
+      @media (max-width: 700px) {
+        .st-toolbar { position: static; }
+        .st-actions { width: 100%; }
+        .st-field:first-child { flex: 1; }
+        .st-search { width: 100%; }
+        .st-cart-btn > span { display: none; }
+        .st-cart-btn { padding-inline: 0.9rem; }
+      }
+
+      /* Floating cart button */
+      .st-fab {
+        position: fixed; z-index: 40; inset-block-end: 1.2rem; inset-inline-end: 1.2rem; display: flex; min-height: 3.2rem; align-items: center; gap: 1rem;
+        padding-inline: 1.3rem; border: 0; border-radius: 99px; background: var(--accent); color: var(--ink); font: inherit; font-size: 0.9rem; font-weight: 800;
+        box-shadow: 0 12px 32px -8px rgba(255, 106, 19, 0.55); cursor: pointer; animation: stFab 0.35s cubic-bezier(0.22, 0.8, 0.2, 1);
+      }
+      .st-fab[hidden] { display: none; }
+      .st-fab-l { display: inline-flex; align-items: center; gap: 0.5rem; }
+      .st-fab-l b { display: inline-grid; min-width: 1.5rem; height: 1.5rem; place-items: center; border-radius: 99px; background: var(--ink); color: var(--accent); font-size: 0.78rem; direction: ltr; }
+            @media (max-width: 640px) { .st-fab { inset-inline: 1rem; justify-content: space-between; } }
+
+      /* Cart drawer */
+      .st-overlay { position: fixed; inset: 0; z-index: 100; display: flex; justify-content: flex-end; background: rgba(0, 0, 0, 0.66); opacity: 0; transition: opacity 0.3s ease; }
+      .st-overlay[hidden], .st-toast[hidden] { display: none; }
       .st-overlay.is-open { opacity: 1; }
-      .st-drawer { transform: translateX(100%); transition: transform 0.38s cubic-bezier(0.22, 0.8, 0.2, 1); }
+      .st-drawer {
+        display: flex; flex-direction: column; width: min(27rem, 100%); height: 100%; border-inline-start: 1px solid var(--line-strong);
+        background: var(--ink); color: var(--paper); transform: translateX(100%); transition: transform 0.38s cubic-bezier(0.22, 0.8, 0.2, 1);
+      }
       html[dir="rtl"] .st-drawer { transform: translateX(-100%); }
       .st-overlay.is-open .st-drawer, html[dir="rtl"] .st-overlay.is-open .st-drawer { transform: none; }
-      .st-toast { opacity: 0; transform: translate(-50%, 14px); transition: opacity 0.3s ease, transform 0.3s ease; }
-      .st-toast.show { opacity: 1; transform: translate(-50%, 0); }
-    
-      /* Store: artwork + ID picker */
-      .st-art { padding: 0.8rem; }
-      .st-art svg { display: block; width: 100%; height: 100%; }
-      .st-thumb { width: 4.8rem; height: 3.3rem; padding: 0.15rem; }
+      .st-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--line); }
+      .st-drawer-head h3 { display: flex; align-items: center; gap: 0.7rem; margin: 0; font-size: 1.1rem; }
+      .st-close { width: 2.3rem; height: 2.3rem; border: 1px solid var(--line-strong); border-radius: 50%; background: transparent; color: inherit; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+      .st-close:hover { border-color: var(--accent); color: var(--accent); }
+      .st-items { display: flex; flex: 1; flex-direction: column; gap: 0.8rem; padding: 1.2rem 1.5rem; overflow-y: auto; }
+      .st-item { display: grid; grid-template-columns: 5.2rem minmax(0, 1fr) auto; align-items: center; gap: 0.9rem; padding: 0.75rem; border: 1px solid var(--line); border-radius: 6px; background: var(--ink-soft); }
+      .st-thumb { display: grid; place-items: center; height: 3.8rem; padding: 0.3rem; border: 1px solid var(--line); border-radius: 4px; background: var(--ink); }
       .st-thumb svg { display: block; width: 100%; height: 100%; }
-      .st-chosen { color: var(--accent) !important; font-weight: 700; letter-spacing: 0.12em; direction: ltr; text-align: start; }
-      .st-modal { align-items: center; justify-content: center; z-index: 120; padding: 1rem; }
-      .st-modal-card { display: flex; flex-direction: column; gap: 1rem; width: min(24rem, 100%); padding: 1.8rem; border: 1px solid var(--line-strong); border-radius: 16px; background: var(--ink); color: var(--paper); transform: translateY(18px) scale(0.97); transition: transform 0.35s cubic-bezier(0.22, 0.8, 0.2, 1); }
+      .st-item-info { display: flex; flex-direction: column; align-items: flex-start; gap: 0.35rem; min-width: 0; font-size: 0.88rem; }
+      .st-chosen { color: var(--accent); font-weight: 700; letter-spacing: 0.12em; direction: ltr; text-align: start; }
+      .st-qty { display: inline-flex; align-items: center; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 99px; }
+      .st-qty button { width: 1.9rem; height: 1.9rem; border: 0; background: none; color: inherit; font-size: 1rem; line-height: 1; cursor: pointer; }
+      .st-qty button:hover { background: var(--accent); color: var(--ink); }
+      .st-qty span { min-width: 1.6rem; font-size: 0.85rem; font-weight: 700; text-align: center; }
+      .st-remove { padding: 0; border: 0; border-bottom: 1px solid var(--line-strong); background: none; color: var(--muted); font: inherit; font-size: 0.78rem; cursor: pointer; }
+      .st-remove:hover { border-color: var(--accent); color: var(--accent); }
+      .st-line { display: flex; align-items: baseline; gap: 0.3rem; white-space: nowrap; }
+      .st-line .st-num { font-size: 1.5rem; }
+      .st-cart-empty { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; color: var(--muted); font-size: 0.95rem; text-align: center; }
+      .st-cart-empty svg { color: var(--line-strong); }
+      .st-cart-empty[hidden], .st-drawer-foot[hidden] { display: none; }
+      .st-drawer-foot { padding: 1.2rem 1.5rem 1.5rem; border-top: 1px solid var(--line); background: var(--ink-soft); }
+      .st-total { display: flex; align-items: baseline; justify-content: space-between; margin-block-end: 1rem; color: var(--muted); }
+      .st-total-n { display: flex; align-items: baseline; gap: 0.4rem; color: var(--paper); }
+      .st-total-n .st-num { font-size: 2.3rem; }
+      .st-note { margin: 0.9rem 0 0; color: var(--muted); font-size: 0.78rem; line-height: 1.7; text-align: center; }
+      .st-toast {
+        position: fixed; z-index: 110; inset-block-end: 5.4rem; left: 50%; padding: 0.75rem 1.4rem; border: 1px solid var(--accent); border-radius: 99px;
+        background: var(--ink-soft); color: var(--paper); font-size: 0.82rem; opacity: 0; transform: translate(-50%, 14px); transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      .st-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+      /* ID picker */
+      .st-modal { z-index: 120; align-items: center; justify-content: center; padding: 1rem; }
+      .st-modal-card { display: flex; flex-direction: column; gap: 1rem; width: min(24rem, 100%); padding: 1.8rem; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--ink); color: var(--paper); transform: translateY(18px) scale(0.97); transition: transform 0.35s cubic-bezier(0.22, 0.8, 0.2, 1); }
       .st-modal.is-open .st-modal-card { transform: none; }
       .st-modal-card h3 { margin: 0; font-size: 1.1rem; }
       .st-modal-card p { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
       .st-modal-card .st-pick-error { color: #ff8a6a; }
       .st-modal-card .st-pick-error[hidden] { display: none; }
-      .st-pick-input { width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--ink-soft); color: var(--paper); font: inherit; font-size: 1.5rem; letter-spacing: 0.35em; text-align: center; direction: ltr; outline: 0; transition: border-color 0.2s; }
+      .st-pick-input { width: 100%; padding: 0.9rem 1rem; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--ink-soft); color: var(--paper); font: inherit; font-size: 1.6rem; letter-spacing: 0.35em; text-align: center; direction: ltr; outline: 0; transition: border-color 0.2s; }
       .st-pick-input:focus { border-color: var(--accent); }
       .st-pick-input::placeholder { color: var(--muted); letter-spacing: 0.2em; }
       .st-pick-actions { display: flex; gap: 0.8rem; }
       .st-pick-actions .st-btn { flex: 1; width: auto; }
-    
+
+      @keyframes stRise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
+      @keyframes stFab { from { opacity: 0; transform: translateY(16px) scale(0.96); } to { opacity: 1; transform: none; } }
+      @keyframes stBump { 40% { transform: scale(1.4); } }
+
       /* Performance: keep animated layers on the GPU, isolate the FX canvas */
-      .fx-canvas { transform: translateZ(0); will-change: transform; contain: strict; }
+      .fx-canvas { background: transparent; }
       .hero-media::before, .hero-scroll-line::after, .stats-status-dot::after { will-change: transform, opacity; }
     </style>
   </head>
@@ -1370,36 +1313,59 @@
           </div>
         </div>
       </section>
-      <section id="about">
-        <div class="about-pin" data-about-pin>
-          <div
-            class="about-slide-track"
-            data-about-track
-            data-aria-label="aboutSequence"
-            role="group"
-            tabindex="0"
-            aria-label="مراحل التعريف بـ RECOIL FIGHT"
-          >
-            <article class="about-slide" data-about-slide>
-              <div class="about-copy">
-                <h2 class="about-headline" id="about-real-heading" data-label="aboutRealTitle">مواجهات حقيقية</h2>
-                <p class="about-description" data-label="aboutRealCopy">ادخل مواجهات PvP مباشرة، حيث تصنع المهارة والتوقيت والقرارات السريعة فرق كل جولة.</p>
-              </div>
-            </article>
+      <section id="about" aria-labelledby="about-title">
+        <div class="about-wrap">
+          <div class="about-intro">
+            <span class="about-reticle" aria-hidden="true"></span>
+            <h2 class="about-title" id="about-title" data-label="aboutTitle">سيرفر PvP عربي، مبني للمواجهات</h2>
+            <p class="about-lead" data-label="aboutLead">RECOIL FIGHT سيرفر FiveM للقتال المباشر. تدخل، تواجه خصمك، وكل قتلة تُحسب لك في الترتيب.</p>
+          </div>
 
-            <article class="about-slide" data-about-slide>
-              <div class="about-copy">
-                <h2 class="about-headline" data-label="aboutRulesTitle">قواعد عادلة</h2>
-                <p class="about-description" data-label="aboutRulesCopy">قواعد واضحة وإشراف فعّال يمنحان كل لاعب فرصة تنافس عادلة.</p>
-              </div>
+          <div class="about-points">
+            <article class="about-point">
+              <h3 data-label="aboutRealTitle">مواجهات حقيقية</h3>
+              <p data-label="aboutRealCopy">ادخل مواجهات PvP مباشرة، حيث تصنع المهارة والتوقيت والقرارات السريعة فرق كل جولة.</p>
             </article>
+            <article class="about-point">
+              <h3 data-label="aboutRulesTitle">قواعد عادلة</h3>
+              <p data-label="aboutRulesCopy">قواعد واضحة وإشراف فعّال يمنحان كل لاعب فرصة تنافس عادلة.</p>
+            </article>
+            <article class="about-point">
+              <h3 data-label="aboutRankTitle">ترتيب يعكس مستواك</h3>
+              <p data-label="aboutRankCopy">القتلات ونسبة K/D تدخل في لوحة المتصدرين، فتعرف مكانك بين أفضل اللاعبين.</p>
+              <a href="#leaderboard" data-label="aboutRankLink">شاهد المتصدرين</a>
+            </article>
+            <article class="about-point">
+              <h3 data-label="aboutCommunityTitle">مجتمع قوي</h3>
+              <p data-label="aboutCommunityCopy">كوّن فريقك، شارك في الفعاليات، وابقَ على تواصل مع لاعبين يعودون للمنافسة.</p>
+              <a href="#join" data-label="aboutCommunityLink">انضم للمجتمع</a>
+            </article>
+          </div>
 
-            <article class="about-slide" data-about-slide>
-              <div class="about-copy">
-                <h2 class="about-headline" data-label="aboutCommunityTitle">مجتمع قوي</h2>
-                <p class="about-description" data-label="aboutCommunityCopy">كوّن فريقك، شارك في الفعاليات، وابقَ على تواصل مع لاعبين يعودون للمنافسة.</p>
-              </div>
-            </article>
+          <div class="about-start">
+            <h3 class="about-start-title" data-label="aboutStartTitle">ابدأ بثلاث خطوات</h3>
+            <ol class="about-steps">
+              <li class="about-step">
+                <span class="about-step-n" aria-hidden="true">1</span>
+                <h4 data-label="aboutStep1Title">حمّل FiveM</h4>
+                <p data-label="aboutStep1Copy">ثبّت اللعبة على جهازك إن لم تكن مثبتة.</p>
+              </li>
+              <li class="about-step">
+                <span class="about-step-n" aria-hidden="true">2</span>
+                <h4 data-label="aboutStep2Title">انضم إلى ديسكورد</h4>
+                <p data-label="aboutStep2Copy">تعرّف على اللاعبين، وتابع الفعاليات والتحديثات.</p>
+              </li>
+              <li class="about-step">
+                <span class="about-step-n" aria-hidden="true">3</span>
+                <h4 data-label="aboutStep3Title">اتصل بالسيرفر</h4>
+                <p data-label="aboutStep3Copy">ادخل الساحة وابدأ أول جولة لك.</p>
+              </li>
+            </ol>
+          </div>
+
+          <div class="about-cta">
+            <a class="about-cta-btn" href="#join" data-label="aboutCta">ابدأ الآن</a>
+            <p class="about-cta-note" data-label="aboutCtaNote">الانضمام مجاني، وديسكورد مفتوح لأي سؤال.</p>
           </div>
         </div>
       </section>
@@ -1410,16 +1376,37 @@
             <p class="stats-note" data-label="shopNote">ادعم السيرفر عبر المتجر الرسمي</p>
           </div>
           <div class="st-panel">
-            <div class="st-bar">
+            <div class="st-toolbar">
               <div class="shop-tabs" data-shop-tabs role="tablist"></div>
               <div class="st-actions">
-                <input class="st-search" data-shop-search type="search" placeholder="ابحث عن منتج..." aria-label="search" />
-                <button class="st-cart-btn" type="button" data-cart-open><span data-label="cartWord">السلة</span> (<b data-cart-count>0</b>)</button>
+                <label class="st-field">
+                  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+                  <input class="st-search" data-shop-search type="search" autocomplete="off" />
+                </label>
+                <label class="st-field st-select">
+                  <select class="st-sort" data-shop-sort>
+                    <option value="featured" data-label="sortFeatured">الأبرز</option>
+                    <option value="low" data-label="sortLow">السعر: الأقل</option>
+                    <option value="high" data-label="sortHigh">السعر: الأعلى</option>
+                  </select>
+                </label>
+                <button class="st-cart-btn" type="button" data-cart-open>
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+                  <span data-label="cartWord">السلة</span><b data-cart-count>0</b>
+                </button>
               </div>
             </div>
+            <p class="st-count" data-shop-count aria-live="polite"></p>
             <div class="st-grid" data-shop-grid></div>
             <p class="st-empty" data-shop-empty hidden data-label="shopNone">ما لقينا منتجات تطابق بحثك.</p>
           </div>
+          <button class="st-fab" type="button" data-fab hidden>
+            <span class="st-fab-l">
+              <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+              <span data-label="cartWord">السلة</span><b data-fab-count>0</b>
+            </span>
+            <span class="st-fab-t" data-fab-total></span>
+          </button>
         </div>
       </section>
       <section id="leaderboard" aria-labelledby="lb-title">
@@ -1454,13 +1441,21 @@
           <span data-label="footerNote">سيرفر PvP عربي على FiveM</span>
         </footer>
     <div class="st-overlay" data-cart hidden>
-      <aside class="st-drawer" role="dialog" aria-modal="true">
-        <div class="st-drawer-head"><h3 data-label="cartWord">السلة</h3><button class="st-close" type="button" data-cart-close aria-label="close">✕</button></div>
+      <aside class="st-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+        <div class="st-drawer-head">
+          <h3 id="cart-title"><span data-label="cartWord">السلة</span><span class="st-chip" data-cart-count>0</span></h3>
+          <button class="st-close" type="button" data-cart-close aria-label="close">✕</button>
+        </div>
         <div class="st-items" data-cart-items></div>
-        <p class="st-cart-empty" data-cart-empty data-label="cartEmpty">سلتك فاضية حالياً</p>
+        <div class="st-cart-empty" data-cart-empty>
+          <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span data-label="cartEmpty">سلتك فاضية حالياً</span>
+          <button class="st-btn st-btn-ghost" type="button" data-cart-browse data-label="browse">تصفح المنتجات</button>
+        </div>
         <div class="st-drawer-foot" data-cart-foot hidden>
-          <div class="st-total"><span data-label="cartTotal">المجموع</span><b data-cart-total>0</b></div>
-          <button class="st-btn st-btn-dark" type="button" data-checkout data-label="cartCheckout">إتمام الطلب</button>
+          <div class="st-total"><span data-label="cartTotal">المجموع</span><span class="st-total-n"><span class="st-num" data-cart-total>0</span><span class="st-cur" data-cart-cur></span></span></div>
+          <button class="st-btn st-btn-wide" type="button" data-checkout data-label="cartCheckout">إتمام الطلب</button>
+          <p class="st-note" data-label="cartNote">يفتح الدفع في ديسكورد، وننسخ لك الطلب لتلصقه هناك.</p>
         </div>
       </aside>
     </div>
@@ -1471,8 +1466,8 @@
         <input class="st-pick-input" data-pick-input inputmode="numeric" autocomplete="off" />
         <p class="st-pick-error" data-pick-error hidden></p>
         <div class="st-pick-actions">
-          <button class="st-btn st-btn-dark" type="button" data-pick-ok data-label="pickOk">تأكيد</button>
-          <button class="st-btn" type="button" data-pick-cancel data-label="pickCancel">إلغاء</button>
+          <button class="st-btn" type="button" data-pick-ok data-label="pickOk">تأكيد</button>
+          <button class="st-btn st-btn-ghost" type="button" data-pick-cancel data-label="pickCancel">إلغاء</button>
         </div>
       </div>
     </div>
@@ -1506,12 +1501,28 @@
             aboutRulesCopy: "قواعد واضحة وإشراف فعّال يمنحان كل لاعب فرصة تنافس عادلة.",
             aboutCommunityTitle: "مجتمع قوي",
             aboutCommunityCopy: "كوّن فريقك، شارك في الفعاليات، وابقَ على تواصل مع لاعبين يعودون للمنافسة.",
+            aboutTitle: "سيرفر PvP عربي، مبني للمواجهات",
+            aboutLead: "RECOIL FIGHT سيرفر FiveM للقتال المباشر. تدخل، تواجه خصمك، وكل قتلة تُحسب لك في الترتيب.",
+            aboutRankTitle: "ترتيب يعكس مستواك",
+            aboutRankCopy: "القتلات ونسبة K/D تدخل في لوحة المتصدرين، فتعرف مكانك بين أفضل اللاعبين.",
+            aboutRankLink: "شاهد المتصدرين",
+            aboutCommunityLink: "انضم للمجتمع",
+            aboutStartTitle: "ابدأ بثلاث خطوات",
+            aboutStep1Title: "حمّل FiveM",
+            aboutStep1Copy: "ثبّت اللعبة على جهازك إن لم تكن مثبتة.",
+            aboutStep2Title: "انضم إلى ديسكورد",
+            aboutStep2Copy: "تعرّف على اللاعبين، وتابع الفعاليات والتحديثات.",
+            aboutStep3Title: "اتصل بالسيرفر",
+            aboutStep3Copy: "ادخل الساحة وابدأ أول جولة لك.",
+            aboutCta: "ابدأ الآن",
+            aboutCtaNote: "الانضمام مجاني، وديسكورد مفتوح لأي سؤال.",
             clips: "المقاطع",
             leaderboard: "المتصدرون",
             "join-section": "الانضمام",
             join: "انضم إلى ديسكورد",
             shop: "المتجر",
             shopHeading: "المتجر", shopNote: "ادعم السيرفر عبر المتجر الرسمي", shopEmpty: "المنتجات قريباً", shopAll: "الكل", shopBuy: "اشترِ", pickOk: "تأكيد", pickCancel: "إلغاء", pickCta: "اختر الأيدي", cartWord: "السلة", addCart: "أضف للسلة", cartTotal: "المجموع", cartCheckout: "إتمام الطلب", cartEmpty: "سلتك فاضية حالياً", shopNone: "ما لقينا منتجات تطابق بحثك.",
+            shopSearch: "ابحث عن منتج...", shopSort: "ترتيب المنتجات", sortFeatured: "الأبرز", sortLow: "السعر: الأقل", sortHigh: "السعر: الأعلى", shopResults: "المنتجات", added: "تمت الإضافة ✓", orderCopied: "تم نسخ الطلب", browse: "تصفح المنتجات", remove: "حذف", cartNote: "يفتح الدفع في ديسكورد، وننسخ لك الطلب لتلصقه هناك.",
             clipsHeading: "أفضل المقاطع", clipsNote: "مقاطع تجريبية، اسحب لمشاهدة المزيد", kills: "قتلة", noVideo: "المقطع غير متوفر بعد", close: "إغلاق",
             lbHeading: "أفضل اللاعبين", lbNote: "بيانات تجريبية", lbRank: "#", lbPlayer: "اللاعب", lbKills: "القتلات", lbKd: "K/D",
             joinTitle: "جاهز للقتال؟", joinCopy: "حمّل FiveM، اضغط اتصال، وادخل الساحة. وإذا احتجت مساعدة، ديسكورد مفتوح لك.", connect: "اتصل بالسيرفر", footerNote: "سيرفر PvP عربي على FiveM",
@@ -1535,12 +1546,28 @@
             aboutRulesCopy: "Clear rules and active moderation give every player a fair chance to compete.",
             aboutCommunityTitle: "Strong Community",
             aboutCommunityCopy: "Find your squad, join community events, and stay connected with players who keep coming back to compete.",
+            aboutTitle: "An Arabic PvP server built for the fight",
+            aboutLead: "RECOIL FIGHT is a FiveM server made for direct combat. Load in, take the fight, and every kill counts toward your rank.",
+            aboutRankTitle: "A ranking that reflects skill",
+            aboutRankCopy: "Kills and K/D feed the leaderboard, so you can see where you stand among the top players.",
+            aboutRankLink: "View leaderboard",
+            aboutCommunityLink: "Join the community",
+            aboutStartTitle: "Start in three steps",
+            aboutStep1Title: "Install FiveM",
+            aboutStep1Copy: "Set up the game on your PC if you haven't already.",
+            aboutStep2Title: "Join the Discord",
+            aboutStep2Copy: "Meet the players and follow events and updates.",
+            aboutStep3Title: "Connect to the server",
+            aboutStep3Copy: "Enter the arena and play your first round.",
+            aboutCta: "Get started",
+            aboutCtaNote: "Joining is free, and Discord is open for any question.",
             clips: "Clips",
             leaderboard: "Leaderboard",
             "join-section": "Join",
             join: "Join Discord",
             shop: "Shop",
             shopHeading: "Shop", shopNote: "Support the server through the official shop", shopEmpty: "Products coming soon", shopAll: "All", shopBuy: "Buy", pickOk: "Confirm", pickCancel: "Cancel", pickCta: "Choose ID", cartWord: "Cart", addCart: "Add to cart", cartTotal: "Total", cartCheckout: "Checkout", cartEmpty: "Your cart is empty", shopNone: "No products match your search.",
+            shopSearch: "Search products...", shopSort: "Sort products", sortFeatured: "Featured", sortLow: "Price: low to high", sortHigh: "Price: high to low", shopResults: "Products", added: "Added ✓", orderCopied: "Order copied", browse: "Browse products", remove: "Remove", cartNote: "Checkout opens Discord. We copy your order so you can paste it there.",
             clipsHeading: "Top Clips", clipsNote: "Sample clips, swipe for more", kills: "kills", noVideo: "Clip not available yet", close: "Close",
             lbHeading: "Top Players", lbNote: "Sample data", lbRank: "#", lbPlayer: "Player", lbKills: "Kills", lbKd: "K/D",
             joinTitle: "Ready to fight?", joinCopy: "Install FiveM, hit connect, and step into the arena. Need help? Discord is open.", connect: "Connect to Server", footerNote: "Arabic PvP server on FiveM",
@@ -1575,15 +1602,20 @@
         // Shop: edit products here. Prices are numbers (SAR). Checkout opens SHOP_BUY_URL (your Discord / ticket link).
         // art: ["id", digits] | ["vip", level 1-3] | ["coin", level 1-2]. pick: digits the buyer chooses (IDs).
         const SHOP_BUY_URL = "https://discord.gg/REPLACE_WITH_INVITE";
+        const catLabels = {
+          vip: { ar: "باقات VIP", en: "VIP Packages" },
+          id: { ar: "أيديات مميزة", en: "Premium IDs" },
+          coin: { ar: "العملات", en: "Coins" },
+        };
         const shopData = [
-          { name: "باقة VIP — النخبة", category: "باقات VIP", price: 149, oldPrice: 199, tag: "الأكثر طلباً", art: ["vip", 2], description: "رتبة VIP + أيدي مميز من اختيارك + شارة حصرية" },
-          { name: "باقة VIP — الأسطوري", category: "باقات VIP", price: 279, oldPrice: 349, tag: "عرض محدود", art: ["vip", 3], description: "VIP أسطوري + أيدي مميز من اختيارك + مميزات خاصة" },
-          { name: "باقة VIP — المحترف", category: "باقات VIP", price: 99, tag: "قيمة ممتازة", art: ["vip", 1], description: "رتبة VIP + أيدي من اختيارك + شارة المحترفين" },
-          { name: "أيدي ثنائي", category: "أيديات مميزة", price: 129, tag: "نادر جداً", art: ["id", 2], pick: 2, description: "أيدي من رقمين، اختر الأيدي اللي تبيه بنفسك" },
-          { name: "أيدي ثلاثي", category: "أيديات مميزة", price: 59, tag: "الأكثر مبيعاً", art: ["id", 3], pick: 3, description: "أيدي من ثلاثة أرقام، بسيط ونادر وسهل الحفظ" },
-          { name: "أيدي رباعي", category: "أيديات مميزة", price: 89, tag: "أيدي نادر", art: ["id", 4], pick: 4, description: "أيدي من أربعة أرقام، اختره متناظر أو بأي رقم تبيه" },
-          { name: "باقة عملات — 2,500", category: "العملات", price: 35, tag: "شحن سريع", art: ["coin", 2], description: "2,500 عملة تضاف لحسابك خلال دقائق" },
-          { name: "باقة عملات — 1,000", category: "العملات", price: 17, tag: "فوري", art: ["coin", 1], description: "1,000 عملة، شحن مباشر وآمن لحسابك" }
+          { cat: "vip", name: "باقة VIP — النخبة", price: 149, oldPrice: 199, tag: "الأكثر طلباً", art: ["vip", 2], description: "رتبة VIP + أيدي مميز من اختيارك + شارة حصرية", en: { name: "VIP Pack: Elite", tag: "Most requested", description: "VIP rank + a premium ID of your choice + an exclusive badge" } },
+          { cat: "vip", name: "باقة VIP — الأسطوري", price: 279, oldPrice: 349, tag: "عرض محدود", art: ["vip", 3], description: "VIP أسطوري + أيدي مميز من اختيارك + مميزات خاصة", en: { name: "VIP Pack: Legendary", tag: "Limited offer", description: "Legendary VIP + a premium ID of your choice + special perks" } },
+          { cat: "vip", name: "باقة VIP — المحترف", price: 99, tag: "قيمة ممتازة", art: ["vip", 1], description: "رتبة VIP + أيدي من اختيارك + شارة المحترفين", en: { name: "VIP Pack: Pro", tag: "Great value", description: "VIP rank + an ID of your choice + the Pro badge" } },
+          { cat: "id", name: "أيدي ثنائي", price: 129, tag: "نادر جداً", art: ["id", 2], pick: 2, description: "أيدي من رقمين، اختر الأيدي اللي تبيه بنفسك", en: { name: "Two-digit ID", tag: "Very rare", description: "A two-digit ID, you pick the number yourself" } },
+          { cat: "id", name: "أيدي ثلاثي", price: 59, tag: "الأكثر مبيعاً", art: ["id", 3], pick: 3, description: "أيدي من ثلاثة أرقام، بسيط ونادر وسهل الحفظ", en: { name: "Three-digit ID", tag: "Best seller", description: "A three-digit ID: simple, rare and easy to remember" } },
+          { cat: "id", name: "أيدي رباعي", price: 89, tag: "أيدي نادر", art: ["id", 4], pick: 4, description: "أيدي من أربعة أرقام، اختره متناظر أو بأي رقم تبيه", en: { name: "Four-digit ID", tag: "Rare ID", description: "A four-digit ID: pick a mirrored one or any number you like" } },
+          { cat: "coin", name: "باقة عملات — 2,500", price: 35, tag: "شحن سريع", art: ["coin", 2], description: "2,500 عملة تضاف لحسابك خلال دقائق", en: { name: "Coin Pack: 2,500", tag: "Fast top-up", description: "2,500 coins added to your account within minutes" } },
+          { cat: "coin", name: "باقة عملات — 1,000", price: 17, tag: "فوري", art: ["coin", 1], description: "1,000 عملة، شحن مباشر وآمن لحسابك", en: { name: "Coin Pack: 1,000", tag: "Instant", description: "1,000 coins, a direct and secure top-up" } },
         ];
 
         // Product artwork (inline SVG, theme colors).
@@ -1617,12 +1649,19 @@
           const grid = $("[data-shop-grid]"), tabs = $("[data-shop-tabs]"), empty = $("[data-shop-empty]");
           const overlay = $("[data-cart]"), items = $("[data-cart-items]"), toast = $("[data-toast]");
           const pickEl = $("[data-pick]"), pickInput = $("[data-pick-input]"), pickError = $("[data-pick-error]");
+          const searchEl = $("[data-shop-search]"), sortEl = $("[data-shop-sort]"), countEl = $("[data-shop-count]"), fab = $("[data-fab]");
           const isAr = () => document.documentElement.lang === "ar";
           const L = () => labels[isAr() ? "ar" : "en"];
-          let cart = [];
-          let category = "", term = "", toastTimer = 0, pending = null;
+          const tr = (p, k) => (isAr() ? p[k] : p.en[k]);
+          const cur = () => (isAr() ? "ر.س" : "SAR");
+          const nf = new Intl.NumberFormat("en-US");
+          let cart = [], category = "", term = "", sort = "featured", toastTimer = 0, pending = null;
+          try {
+            const saved = JSON.parse(localStorage.getItem("recoil-cart") || "[]");
+            if (Array.isArray(saved)) cart = saved.filter((c) => c && shopData[c.i] && typeof c.id === "string");
+          } catch (e) { cart = []; }
+          const save = () => { try { localStorage.setItem("recoil-cart", JSON.stringify(cart)); } catch (e) {} };
           const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
-          const money = (n) => n + " ر.س";
 
           const say = (text) => { toast.textContent = text; toast.hidden = false; void toast.offsetWidth; toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => { toast.classList.remove("show"); toastTimer = setTimeout(() => { toast.hidden = true; }, 300); }, 2400); };
           const layer = (node, open) => {
@@ -1631,50 +1670,60 @@
             else { node.classList.remove("is-open"); node._t = setTimeout(() => { node.hidden = true; }, 350); }
             document.body.style.overflow = [overlay, pickEl].some((n) => n.classList.contains("is-open")) ? "hidden" : "";
           };
-          const setOpen = (open) => layer(overlay, open);
+          const setOpen = (open) => { layer(overlay, open); if (open) setTimeout(() => $("[data-cart-close]").focus(), 150); };
 
-          const addEntry = (i, id) => { cart.push({ i, id }); drawCart(); };
-          const removeOne = (i, id) => { const k = cart.findIndex((c) => c.i === i && c.id === id); if (k >= 0) cart.splice(k, 1); drawCart(); };
-
-          function drawCart() {
-            const badge = $("[data-cart-count]"); badge.textContent = cart.length;
-            if (cart.length) { badge.classList.remove("bump"); void badge.offsetWidth; badge.classList.add("bump"); }
+          const addEntry = (i, id) => { cart.push({ i, id }); save(); drawCart(); };
+          const removeOne = (i, id) => { const k = cart.findIndex((c) => c.i === i && c.id === id); if (k >= 0) cart.splice(k, 1); save(); drawCart(); };
+          const removeAll = (i, id) => { cart = cart.filter((c) => !(c.i === i && c.id === id)); save(); drawCart(); };
+          const grouped = () => {
             const groups = new Map();
             cart.forEach((c) => { const k = c.i + ":" + c.id; const g = groups.get(k); if (g) g.n++; else groups.set(k, { c, n: 1 }); });
+            return [...groups.values()];
+          };
+
+          function drawCart() {
+            const count = cart.length, sum = cart.reduce((n, c) => n + shopData[c.i].price, 0);
+            document.querySelectorAll("[data-cart-count], [data-fab-count]").forEach((b) => { b.textContent = count; });
+            const badge = $(".st-cart-btn [data-cart-count]");
+            if (count) { badge.classList.remove("bump"); void badge.offsetWidth; badge.classList.add("bump"); }
+            fab.hidden = count === 0;
+            $("[data-fab-total]").textContent = nf.format(sum) + " " + cur();
             items.textContent = "";
-            let total = 0;
-            groups.forEach(({ c, n }) => {
-              const p = shopData[c.i]; total += p.price * n;
+            grouped().forEach(({ c, n }) => {
+              const p = shopData[c.i];
               const row = el("div", "st-item");
               const thumb = el("div", "st-thumb"); thumb.innerHTML = artFor(p);
               const info = el("div", "st-item-info");
-              info.append(el("b", "", p.name), el("small", "", money(p.price)));
+              info.append(el("b", "", tr(p, "name")));
               if (c.id) info.append(el("small", "st-chosen", (isAr() ? "الأيدي: " : "ID: ") + c.id));
-              const ctl = el("div", c.id ? "st-qty" : "st-qty");
               if (c.id) {
-                const del = el("button", "", "✕"); del.type = "button"; del.setAttribute("aria-label", "remove");
-                del.addEventListener("click", () => removeOne(c.i, c.id));
-                ctl.append(del);
+                const del = el("button", "st-remove", L().remove); del.type = "button";
+                del.addEventListener("click", () => removeAll(c.i, c.id));
+                info.append(del);
               } else {
+                const qty = el("div", "st-qty");
                 const minus = el("button", "", "−"), plus = el("button", "", "+");
-                minus.type = plus.type = "button";
+                minus.type = plus.type = "button"; minus.setAttribute("aria-label", "−"); plus.setAttribute("aria-label", "+");
                 minus.addEventListener("click", () => removeOne(c.i, c.id));
                 plus.addEventListener("click", () => addEntry(c.i, c.id));
-                ctl.append(minus, el("span", "", String(n)), plus);
+                qty.append(minus, el("span", "", String(n)), plus);
+                info.append(qty);
               }
-              info.append(ctl);
-              row.append(thumb, info);
+              const line = el("div", "st-line");
+              line.append(el("span", "st-num", nf.format(p.price * n)), el("span", "st-cur", cur()));
+              row.append(thumb, info, line);
               items.appendChild(row);
             });
-            $("[data-cart-total]").textContent = money(total);
-            $("[data-cart-empty]").hidden = cart.length > 0;
-            $("[data-cart-foot]").hidden = cart.length === 0;
+            $("[data-cart-total]").textContent = nf.format(sum);
+            $("[data-cart-cur]").textContent = cur();
+            $("[data-cart-empty]").hidden = count > 0;
+            $("[data-cart-foot]").hidden = count === 0;
           }
 
           // ID picker: the buyer chooses the number they want.
           const askId = (p, i) => {
             pending = { p, i };
-            $("[data-pick-title]").textContent = p.name;
+            $("[data-pick-title]").textContent = tr(p, "name");
             $("[data-pick-note]").textContent = isAr() ? "اكتب الأيدي اللي تبيه (" + p.pick + " أرقام)" : "Type the ID you want (" + p.pick + " digits)";
             pickInput.maxLength = p.pick; pickInput.value = ""; pickInput.placeholder = Array(p.pick).fill("•").join(" ");
             pickError.hidden = true;
@@ -1690,7 +1739,7 @@
             }
             if (cart.some((c) => c.i === i && c.id === pickInput.value)) { pickError.textContent = isAr() ? "هذا الأيدي مضاف بالفعل في السلة" : "This ID is already in your cart"; pickError.hidden = false; return; }
             addEntry(i, pickInput.value);
-            say(p.name + " " + pickInput.value + " ✓");
+            say(tr(p, "name") + " " + pickInput.value + " ✓");
             pending = null; layer(pickEl, false);
           };
           pickInput.addEventListener("input", () => {
@@ -1704,37 +1753,80 @@
 
           function drawGrid() {
             grid.textContent = "";
-            const list = shopData.map((p, i) => [p, i]).filter(([p]) => (!category || p.category === category) && p.name.toLowerCase().includes(term));
+            const list = shopData.map((p, i) => [p, i]).filter(([p]) => (!category || p.cat === category) && (!term || (p.name + " " + p.en.name).toLowerCase().includes(term)));
+            if (sort === "low") list.sort((a, b) => a[0].price - b[0].price);
+            if (sort === "high") list.sort((a, b) => b[0].price - a[0].price);
             empty.hidden = list.length > 0;
+            countEl.textContent = list.length ? L().shopResults + ": " + list.length : "";
+            const featuredOn = !category && !term && sort === "featured";
             list.forEach(([p, i], n) => {
-              const card = el("article", "st-card"); card.style.animationDelay = (0.12 + n * 0.06) + "s";
+              const card = el("article", "st-card" + (featuredOn && n === 0 ? " is-featured" : ""));
+              card.style.animationDelay = (n * 0.05) + "s";
               const art = el("div", "st-art"); art.innerHTML = artFor(p);
-              const price = el("span", "st-price", money(p.price));
-              if (p.oldPrice) price.append(el("del", "", String(p.oldPrice)));
-              const key = p.pick ? "pickCta" : "addCart";
-              const add = el("button", "st-btn", L()[key]); add.type = "button"; add.dataset.label = key;
-              add.addEventListener("click", () => { if (p.pick) askId(p, i); else { addEntry(i, ""); say(p.name + " ✓"); } });
+              art.prepend(el("span", "st-tag", tr(p, "tag")));
+              if (p.oldPrice) art.append(el("span", "st-tag st-off", "\u200E-" + Math.round((1 - p.price / p.oldPrice) * 100) + "%"));
+              const price = el("div", "st-price");
+              price.append(el("span", "st-num", nf.format(p.price)), el("span", "st-cur", cur()));
+              if (p.oldPrice) price.append(el("del", "st-old", nf.format(p.oldPrice)));
+              const add = el("button", "st-btn", p.pick ? L().pickCta : L().addCart); add.type = "button";
+              add.addEventListener("click", () => {
+                if (p.pick) { askId(p, i); return; }
+                addEntry(i, "");
+                add.textContent = L().added; add.classList.add("is-added");
+                clearTimeout(add._t);
+                add._t = setTimeout(() => { add.textContent = L().addCart; add.classList.remove("is-added"); }, 1300);
+              });
+              const body = el("div", "st-body");
+              body.append(el("h3", "st-name", tr(p, "name")), el("p", "st-desc", tr(p, "description")));
               const foot = el("div", "st-foot"); foot.append(price, add);
-              card.append(el("span", "st-pill", p.tag), art, el("h3", "st-name", p.name), el("p", "st-desc", p.description), foot);
+              const main = el("div", "st-main"); main.append(body, foot);
+              card.append(art, main);
               grid.appendChild(card);
             });
           }
 
-          const cats = [...new Set(shopData.map((p) => p.category))];
-          [["", null], ...cats.map((c) => [c, c])].forEach(([value, name]) => {
-            const b = el("button", "shop-tab" + (value === "" ? " is-active" : ""), name || L().shopAll);
-            b.type = "button"; b.setAttribute("role", "tab");
-            if (!name) b.dataset.label = "shopAll";
-            b.addEventListener("click", () => { category = value; tabs.querySelectorAll(".shop-tab").forEach((t) => t.classList.toggle("is-active", t === b)); drawGrid(); });
-            tabs.appendChild(b);
-          });
-          $("[data-shop-search]").addEventListener("input", (e) => { term = e.target.value.trim().toLowerCase(); drawGrid(); });
-          $("[data-cart-open]").addEventListener("click", () => setOpen(true));
+          function drawTabs() {
+            tabs.textContent = "";
+            const make = (value, label, count) => {
+              const b = el("button", "shop-tab" + (category === value ? " is-active" : "")); b.type = "button";
+              b.setAttribute("role", "tab"); b.setAttribute("aria-selected", String(category === value));
+              b.append(document.createTextNode(label), el("span", "st-tab-n", String(count)));
+              b.addEventListener("click", () => { category = value; drawTabs(); drawGrid(); });
+              tabs.appendChild(b);
+            };
+            make("", L().shopAll, shopData.length);
+            Object.keys(catLabels).forEach((k) => make(k, catLabels[k][isAr() ? "ar" : "en"], shopData.filter((p) => p.cat === k).length));
+          }
+
+          const drawUi = () => {
+            searchEl.placeholder = L().shopSearch;
+            searchEl.setAttribute("aria-label", L().shopSearch);
+            sortEl.setAttribute("aria-label", L().shopSort);
+          };
+
+          const summary = () => {
+            const lines = grouped().map(({ c, n }) => {
+              const p = shopData[c.i];
+              return "• " + tr(p, "name") + (c.id ? " (" + c.id + ")" : "") + (n > 1 ? " ×" + n : "") + " — " + nf.format(p.price * n) + " " + cur();
+            });
+            const sum = cart.reduce((n, c) => n + shopData[c.i].price, 0);
+            return "RECOIL FIGHT\n" + lines.join("\n") + "\n" + L().cartTotal + ": " + nf.format(sum) + " " + cur();
+          };
+
+          searchEl.addEventListener("input", (e) => { term = e.target.value.trim().toLowerCase(); drawGrid(); });
+          sortEl.addEventListener("change", () => { sort = sortEl.value; drawGrid(); });
+          document.querySelectorAll("[data-cart-open]").forEach((b) => b.addEventListener("click", () => setOpen(true)));
+          fab.addEventListener("click", () => setOpen(true));
           $("[data-cart-close]").addEventListener("click", () => setOpen(false));
+          $("[data-cart-browse]").addEventListener("click", () => setOpen(false));
           overlay.addEventListener("click", (e) => { if (e.target === overlay) setOpen(false); });
           document.addEventListener("keydown", (e) => { if (e.key === "Escape") { setOpen(false); layer(pickEl, false); pending = null; } });
-          $("[data-checkout]").addEventListener("click", () => window.open(SHOP_BUY_URL, "_blank", "noopener"));
-          drawGrid(); drawCart();
+          $("[data-checkout]").addEventListener("click", () => {
+            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(summary()).then(() => say(L().orderCopied)).catch(() => {});
+            window.open(SHOP_BUY_URL, "_blank", "noopener");
+          });
+          document.addEventListener("langchange", () => { drawUi(); drawTabs(); drawGrid(); drawCart(); });
+          drawUi(); drawTabs(); drawGrid(); drawCart();
         }
 
         function setupPages() {
@@ -1742,12 +1834,11 @@
           if (!gsap || reduceMotion) return;
           const up = (targets, vars) => gsap.from(targets, { y: 36, opacity: 0, duration: 0.8, ease: "power3.out", clearProps: "transform,opacity", ...vars });
           pageIntro.hero = () => up(".hero-letter, .hero-subtitle, .hero-actions", { y: 44, stagger: 0.05 });
-          pageIntro.about = () => document.querySelectorAll("[data-about-slide]").forEach((slide, i) => {
-            const tl = gsap.timeline({ delay: i * 0.16, onComplete: () => gsap.set(slide, { clearProps: "transform,opacity" }) });
-            tl.from(slide, { y: 56, opacity: 0, duration: 0.9, ease: "power3.out" })
-              .from(slide.querySelector(".about-headline"), { y: 28, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.15)
-              .from(slide.querySelector(".about-description"), { y: 20, opacity: 0, duration: 0.7, ease: "power3.out" }, 0.3);
-          });
+          pageIntro.about = () => {
+            up(".about-title, .about-lead", { stagger: 0.12 });
+            up(".about-point", { y: 28, duration: 0.65, stagger: 0.1, delay: 0.3 });
+            up(".about-step, .about-cta", { y: 24, duration: 0.6, stagger: 0.1, delay: 0.7 });
+          };
           pageIntro.leaderboard = () => up(".lb-row:not(.lb-head)", { y: 24, duration: 0.6, stagger: 0.06 });
           pageIntro.join = () => up(".join-inner > *", { stagger: 0.12 });
           
@@ -1769,11 +1860,12 @@
           };
           const slash = document.querySelector(".page-slash");
           if (!gsap || reduceMotion || currentPage === null || !slash) return swap();
-          gsap.timeline()
+          const hideSlash = () => gsap.set(slash, { display: "none" });
+          if (window.__slashTl) window.__slashTl.kill();
+          window.__slashTl = gsap.timeline({ onComplete: hideSlash, onInterrupt: hideSlash })
             .set(slash, { xPercent: -120, skewX: -14, display: "block" })
             .to(slash, { xPercent: 0, duration: 0.26, ease: "power2.in", onComplete: swap })
-            .to(slash, { xPercent: 120, duration: 0.26, ease: "power2.out" })
-            .set(slash, { display: "none" });
+            .to(slash, { xPercent: 120, duration: 0.26, ease: "power2.out" });
         }
 
         function initRouter() {
@@ -1797,7 +1889,8 @@
           const weak = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
           let quality = weak ? 0.6 : 1;
           if (weak) document.documentElement.classList.add("lite");
-          const ctx = canvas.getContext("2d", { desynchronized: true });
+          const ctx = canvas.getContext("2d", { alpha: true });
+          if (!ctx) return;
           let W = 0, H = 0, dpr = 1, lowRes = false, resizeRaf = 0;
           const fit = () => {
             dpr = (weak || lowRes) ? 0.8 : Math.min(window.devicePixelRatio || 1, 1.5);
@@ -1934,6 +2027,7 @@
           menuButton.setAttribute("aria-label", isArabic ? "فتح القائمة" : "Open navigation");
           document.querySelector(".brand").setAttribute("aria-label", isArabic ? "RECOIL FIGHT — الصفحة الرئيسية" : "RECOIL FIGHT — Home");
           document.title = "RECOIL FIGHT";
+          document.dispatchEvent(new Event("langchange"));
         }
 
         function closeMobileMenu() {
