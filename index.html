@@ -1044,6 +1044,59 @@
       ::-webkit-scrollbar-thumb:hover { background: #ff8a3d; }
       ::-webkit-scrollbar-button { display: none; height: 0; }
     
+
+      /* ---------- Coin showcase ---------- */
+      .coin-stage { --d: 300px; position: relative; isolation: isolate; overflow: hidden; margin-block-end: clamp(1rem, 2vw, 1.5rem); padding: 3rem 1.9rem 2.2rem; border: 1px solid var(--line); border-radius: 6px; color: var(--paper); background: radial-gradient(60% 70% at 50% 40%, #4a230c 0, #241309 45%, var(--ink-soft) 100%); }
+      .coin-stage[hidden] { display: none; }
+      .coin-stage::before { position: absolute; inset: 0; z-index: -1; content: ""; opacity: 0.55; background: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 7px); }
+      .coin-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px) minmax(0, 1fr); grid-template-areas: "a c b" "d d d"; gap: 26px 28px; align-items: center; }
+      .coin-wrap { grid-area: c; position: relative; height: calc(var(--d) + 56px); display: grid; place-items: center; perspective: 1100px; }
+      .coin-halo { position: absolute; width: calc(var(--d) * 1.5); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255, 122, 26, 0.55) 0, rgba(255, 122, 26, 0.12) 42%, transparent 68%); animation: coinHalo 3.6s ease-in-out infinite; }
+      .coin-orbit { position: absolute; width: calc(var(--d) * 1.18); aspect-ratio: 1; border-radius: 50%; border: 1px dashed rgba(255, 170, 90, 0.4); animation: coinOrbit 24s linear infinite; }
+      .coin-orbit.rev { width: calc(var(--d) * 1.36); border-style: solid; border-color: rgba(255, 170, 90, 0.14); animation-duration: 36s; animation-direction: reverse; }
+      .coin-orbit i { position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: #ffb25f; box-shadow: 0 0 12px 3px rgba(255, 150, 50, 0.8); }
+      .coin-orbit i + i { top: auto; bottom: -4px; }
+      .coin-float { position: relative; transform-style: preserve-3d; animation: coinBob 4.2s ease-in-out infinite alternate; }
+      .coin { position: relative; width: var(--d); height: var(--d); transform-style: preserve-3d; animation: coinSpin 9s linear infinite; }
+      .coin-face, .coin-edge i { position: absolute; inset: 0; border-radius: 50%; }
+      .coin-edge { position: absolute; inset: 0; transform-style: preserve-3d; }
+      .coin-edge i { background: #c24a05; box-shadow: inset 0 0 0 2px #ff8a3d; }
+      .coin-face { overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; background: repeating-radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 4px), conic-gradient(from 20deg, #b34200, #ff9a52, #e8590c, #ffc08a, #c94a06, #ff8a3d, #9c3a00, #ffb070, #b34200); box-shadow: inset 0 0 0 5px rgba(100, 30, 0, 0.5), inset 0 0 28px rgba(90, 25, 0, 0.55); }
+      .coin-face.front { transform: translateZ(11px); }
+      .coin-face.back { transform: rotateY(180deg) translateZ(11px); }
+      .coin-face::after { position: absolute; inset: 0; content: ""; border-radius: 50%; background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, 0.55) 50%, transparent 62%); background-size: 260% 100%; background-position: 130% 0; animation: coinShine 4.5s ease-in-out infinite; }
+      .coin-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .spark { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #ffcf8a; box-shadow: 0 0 8px 2px rgba(255, 170, 80, 0.8); opacity: 0; animation: coinRise 4s linear infinite; }
+      .offers { display: flex; flex-direction: column; gap: 10px; }
+      .offers-a { grid-area: a; } .offers-b { grid-area: b; }
+      .coin-stage .offer { position: relative; display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 10px; padding: 0.9rem 1.1rem; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 6px; background: rgba(255, 255, 255, 0.05); color: var(--paper); font: inherit; text-align: start; cursor: pointer; transition: border-color 0.2s, background-color 0.2s, transform 0.2s; animation: coinOfferIn 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards; animation-delay: calc(var(--i) * 70ms); }
+      .coin-stage .offer:hover { border-color: var(--accent); background: rgba(255, 106, 19, 0.12); transform: translateY(-2px); }
+      .coin-stage .offer:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+      .offer-amt { display: flex; align-items: baseline; gap: 0.4rem; font-family: var(--font-mark); font-size: 1.9rem; line-height: 1; letter-spacing: 0.02em; direction: ltr; }
+      .offer-amt small { color: #e9b98a; font-family: inherit; font-size: 0.95rem; }
+      .offer-price { padding: 0.3rem 0.8rem; border: 1px solid rgba(255, 255, 255, 0.28); border-radius: 99px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; transition: background-color 0.2s, border-color 0.2s, color 0.2s; }
+      .coin-stage .offer:hover .offer-price { border-color: var(--accent); background: var(--accent); color: var(--ink); }
+      .coin-stage .offer-best { grid-area: d; justify-self: center; width: min(380px, 100%); padding: 1.1rem 1.3rem; border-color: rgba(255, 160, 80, 0.7); background: linear-gradient(120deg, rgba(255, 106, 19, 0.35), rgba(255, 190, 110, 0.12)); }
+      .offer-best .offer-amt { font-size: 2.4rem; }
+      .offer-tag { position: absolute; inset-block-start: -9px; inset-inline-start: 16px; padding: 0.1rem 0.7rem; border-radius: 99px; background: var(--accent); color: var(--ink); font-size: 0.7rem; font-weight: 800; }
+      .coin-stage.paused *, .coin-stage.paused *::after { animation-play-state: paused !important; }
+      @keyframes coinSpin { from { transform: rotateX(-9deg) rotateY(0); } to { transform: rotateX(-9deg) rotateY(360deg); } }
+      @keyframes coinBob { from { transform: translateY(8px); } to { transform: translateY(-12px); } }
+      @keyframes coinHalo { 0%, 100% { transform: scale(0.92); opacity: 0.75; } 50% { transform: scale(1.06); opacity: 1; } }
+      @keyframes coinOrbit { to { transform: rotate(360deg); } }
+      @keyframes coinShine { 0%, 25% { background-position: 130% 0; } 70%, 100% { background-position: -30% 0; } }
+      @keyframes coinRise { 0% { transform: translateY(20px) scale(0.4); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-150px) scale(1); opacity: 0; } }
+      @keyframes coinOfferIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+      @media (max-width: 860px) {
+        .coin-stage { --d: 200px; padding: 2.2rem 0.9rem 1.4rem; }
+        .coin-layout { grid-template-columns: 1fr 1fr; grid-template-areas: "c c" "a b" "d d"; gap: 12px; }
+        .coin-stage .offer { padding: 0.75rem; } .offer-amt { font-size: 1.5rem; } .offer-best .offer-amt { font-size: 2rem; }
+      }
+      @media (max-width: 640px) { .coin-stage .offer:not(.offer-best) { flex-direction: column; align-items: flex-start; gap: 8px; } }
+      @media (prefers-reduced-motion: reduce) { .coin-stage *, .coin-stage *::after { animation: none !important; } .coin { transform: rotateX(-9deg) rotateY(-25deg); } }
+      .st-total-n { flex-wrap: wrap; justify-content: flex-end; }
+      .st-total-n .st-num { font-size: 1.7rem; }
+
       /* ---------- Store ---------- */
       #shop .block-inner { padding-block-start: clamp(1.25rem, 4vw, 3rem); }
       .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -1397,6 +1450,7 @@
               </div>
             </div>
             <p class="st-count" data-shop-count aria-live="polite"></p>
+            <div class="coin-stage" data-coin-stage hidden></div>
             <div class="st-grid" data-shop-grid></div>
             <p class="st-empty" data-shop-empty hidden data-label="shopNone">ما لقينا منتجات تطابق بحثك.</p>
           </div>
@@ -1521,7 +1575,7 @@
             "join-section": "الانضمام",
             join: "انضم إلى ديسكورد",
             shop: "المتجر",
-            shopHeading: "المتجر", shopNote: "ادعم السيرفر عبر المتجر الرسمي", shopEmpty: "المنتجات قريباً", shopAll: "الكل", shopBuy: "اشترِ", pickOk: "تأكيد", pickCancel: "إلغاء", pickCta: "اختر الأيدي", cartWord: "السلة", addCart: "أضف للسلة", cartTotal: "المجموع", cartCheckout: "إتمام الطلب", cartEmpty: "سلتك فاضية حالياً", shopNone: "ما لقينا منتجات تطابق بحثك.",
+            shopHeading: "المتجر", shopNote: "ادعم السيرفر عبر المتجر الرسمي", shopEmpty: "المنتجات قريباً", shopAll: "الكل", shopBuy: "اشترِ", bestOffer: "الأوفر", pickOk: "تأكيد", pickCancel: "إلغاء", pickCta: "اختر الأيدي", cartWord: "السلة", addCart: "أضف للسلة", cartTotal: "المجموع", cartCheckout: "إتمام الطلب", cartEmpty: "سلتك فاضية حالياً", shopNone: "ما لقينا منتجات تطابق بحثك.",
             shopSearch: "ابحث عن منتج...", shopSort: "ترتيب المنتجات", sortFeatured: "الأبرز", sortLow: "السعر: الأقل", sortHigh: "السعر: الأعلى", shopResults: "المنتجات", added: "تمت الإضافة ✓", orderCopied: "تم نسخ الطلب", browse: "تصفح المنتجات", remove: "حذف", cartNote: "يفتح الدفع في ديسكورد، وننسخ لك الطلب لتلصقه هناك.",
             clipsHeading: "أفضل المقاطع", clipsNote: "مقاطع تجريبية، اسحب لمشاهدة المزيد", kills: "قتلة", noVideo: "المقطع غير متوفر بعد", close: "إغلاق",
             lbHeading: "أفضل اللاعبين", lbNote: "بيانات تجريبية", lbRank: "#", lbPlayer: "اللاعب", lbKills: "القتلات", lbKd: "K/D",
@@ -1566,7 +1620,7 @@
             "join-section": "Join",
             join: "Join Discord",
             shop: "Shop",
-            shopHeading: "Shop", shopNote: "Support the server through the official shop", shopEmpty: "Products coming soon", shopAll: "All", shopBuy: "Buy", pickOk: "Confirm", pickCancel: "Cancel", pickCta: "Choose ID", cartWord: "Cart", addCart: "Add to cart", cartTotal: "Total", cartCheckout: "Checkout", cartEmpty: "Your cart is empty", shopNone: "No products match your search.",
+            shopHeading: "Shop", shopNote: "Support the server through the official shop", shopEmpty: "Products coming soon", shopAll: "All", shopBuy: "Buy", bestOffer: "Best value", pickOk: "Confirm", pickCancel: "Cancel", pickCta: "Choose ID", cartWord: "Cart", addCart: "Add to cart", cartTotal: "Total", cartCheckout: "Checkout", cartEmpty: "Your cart is empty", shopNone: "No products match your search.",
             shopSearch: "Search products...", shopSort: "Sort products", sortFeatured: "Featured", sortLow: "Price: low to high", sortHigh: "Price: high to low", shopResults: "Products", added: "Added ✓", orderCopied: "Order copied", browse: "Browse products", remove: "Remove", cartNote: "Checkout opens Discord. We copy your order so you can paste it there.",
             clipsHeading: "Top Clips", clipsNote: "Sample clips, swipe for more", kills: "kills", noVideo: "Clip not available yet", close: "Close",
             lbHeading: "Top Players", lbNote: "Sample data", lbRank: "#", lbPlayer: "Player", lbKills: "Kills", lbKd: "K/D",
@@ -1601,21 +1655,24 @@
 
         // Shop: edit products here. Prices are numbers (SAR). Checkout opens SHOP_BUY_URL (your Discord / ticket link).
         // art: ["id", digits] | ["vip", level 1-3] | ["coin", level 1-2]. pick: digits the buyer chooses (IDs).
+        // Prices below were set in USD; converted to SAR at the fixed 3.75 rate and rounded to whole riyals.
+        const SAR_RATE = 3.75, sar = (usd) => Math.round(usd * SAR_RATE);
+        const nfCoin = (n) => n.toLocaleString("en-US");
         const SHOP_BUY_URL = "https://discord.gg/REPLACE_WITH_INVITE";
         const catLabels = {
-          vip: { ar: "باقات VIP", en: "VIP Packages" },
-          id: { ar: "أيديات مميزة", en: "Premium IDs" },
           coin: { ar: "العملات", en: "Coins" },
+          id: { ar: "الأيديات", en: "IDs" },
+          vip: { ar: "VIP", en: "VIP" },
         };
+        // cur: "USD" | "SAR". coins: amount shown on the coin showcase. best: highlighted offer.
+        const coinPack = (coins, price, best) => ({ cat: "coin", cur: "SAR", coins, price: sar(price), best: !!best, name: nfCoin(coins) + " coin", tag: "coin", art: ["coin", 1], description: "", en: { name: nfCoin(coins) + " coin", tag: "coin", description: "" } });
         const shopData = [
-          { cat: "vip", name: "باقة VIP — النخبة", price: 149, oldPrice: 199, tag: "الأكثر طلباً", art: ["vip", 2], description: "رتبة VIP + أيدي مميز من اختيارك + شارة حصرية", en: { name: "VIP Pack: Elite", tag: "Most requested", description: "VIP rank + a premium ID of your choice + an exclusive badge" } },
-          { cat: "vip", name: "باقة VIP — الأسطوري", price: 279, oldPrice: 349, tag: "عرض محدود", art: ["vip", 3], description: "VIP أسطوري + أيدي مميز من اختيارك + مميزات خاصة", en: { name: "VIP Pack: Legendary", tag: "Limited offer", description: "Legendary VIP + a premium ID of your choice + special perks" } },
-          { cat: "vip", name: "باقة VIP — المحترف", price: 99, tag: "قيمة ممتازة", art: ["vip", 1], description: "رتبة VIP + أيدي من اختيارك + شارة المحترفين", en: { name: "VIP Pack: Pro", tag: "Great value", description: "VIP rank + an ID of your choice + the Pro badge" } },
-          { cat: "id", name: "أيدي ثنائي", price: 129, tag: "نادر جداً", art: ["id", 2], pick: 2, description: "أيدي من رقمين، اختر الأيدي اللي تبيه بنفسك", en: { name: "Two-digit ID", tag: "Very rare", description: "A two-digit ID, you pick the number yourself" } },
-          { cat: "id", name: "أيدي ثلاثي", price: 59, tag: "الأكثر مبيعاً", art: ["id", 3], pick: 3, description: "أيدي من ثلاثة أرقام، بسيط ونادر وسهل الحفظ", en: { name: "Three-digit ID", tag: "Best seller", description: "A three-digit ID: simple, rare and easy to remember" } },
-          { cat: "id", name: "أيدي رباعي", price: 89, tag: "أيدي نادر", art: ["id", 4], pick: 4, description: "أيدي من أربعة أرقام، اختره متناظر أو بأي رقم تبيه", en: { name: "Four-digit ID", tag: "Rare ID", description: "A four-digit ID: pick a mirrored one or any number you like" } },
-          { cat: "coin", name: "باقة عملات — 2,500", price: 35, tag: "شحن سريع", art: ["coin", 2], description: "2,500 عملة تضاف لحسابك خلال دقائق", en: { name: "Coin Pack: 2,500", tag: "Fast top-up", description: "2,500 coins added to your account within minutes" } },
-          { cat: "coin", name: "باقة عملات — 1,000", price: 17, tag: "فوري", art: ["coin", 1], description: "1,000 عملة، شحن مباشر وآمن لحسابك", en: { name: "Coin Pack: 1,000", tag: "Instant", description: "1,000 coins, a direct and secure top-up" } },
+          coinPack(500, 5), coinPack(1000, 10), coinPack(1500, 15), coinPack(2000, 20), coinPack(2500, 25),
+          coinPack(3000, 30), coinPack(4000, 40), coinPack(5000, 50), coinPack(10000, 70, true),
+          { cat: "vip", cur: "SAR", name: "VIP — النخبة", price: 150, tag: "VIP", featured: true, art: ["vip", 2], description: "رتبة فالدس + أيدي ثلاثي من اختيارك (مو قبايل) + سلاح بريكويل", en: { name: "VIP: Elite", tag: "VIP", description: "Valdes rank + a three-digit ID of your choice (not tribal) + a Recoil weapon" } },
+          { cat: "id", cur: "SAR", name: "أيدي مميز — قبايل", price: sar(15), tag: "قبايل", art: ["id", 3], description: "أيدي مميز من نوع قبايل", en: { name: "Premium ID — Tribal", tag: "Tribal", description: "A premium tribal ID" } },
+          { cat: "id", cur: "SAR", name: "أيدي ثلاثي — بدون قبايل", price: sar(10), tag: "بدون قبايل", art: ["id", 3], pick: 3, description: "أيدي من ثلاثة أرقام بدون قبايل، اختر الأيدي اللي تبيه بنفسك", en: { name: "Three-digit ID — No tribal", tag: "No tribal", description: "A three-digit ID, no tribal, you pick the number yourself" } },
+          { cat: "id", cur: "SAR", name: "أيدي ثنائي — بدون قبايل", price: sar(25), tag: "بدون قبايل", art: ["id", 2], pick: 2, description: "أيدي من رقمين بدون قبايل، اختر الأيدي اللي تبيه بنفسك", en: { name: "Two-digit ID — No tribal", tag: "No tribal", description: "A two-digit ID, no tribal, you pick the number yourself" } },
         ];
 
         // Product artwork (inline SVG, theme colors).
@@ -1636,11 +1693,7 @@
             const ring = lv === 3 ? '<circle cx="120" cy="82" r="62" fill="none" stroke="#ff6a13" stroke-width="2" stroke-dasharray="4 7" opacity=".6"/>' : "";
             return svgWrap(ring + '<path d="M72 112 L60 58 L96 84 L120 42 L144 84 L180 58 L168 112 Z" fill="#ff6a13" stroke="#ffb070" stroke-width="2.5" stroke-linejoin="round"/><rect x="72" y="116" width="96" height="14" rx="4" fill="#ff8a3d"/><circle cx="120" cy="42" r="6" fill="#fff3e0"/><circle cx="60" cy="58" r="5" fill="#fff3e0"/><circle cx="180" cy="58" r="5" fill="#fff3e0"/><circle cx="120" cy="96" r="7" fill="#7a2a00"/>' + stars);
           },
-          coin: (lv) => {
-            const coin = (x, y) => '<circle cx="' + x + '" cy="' + y + '" r="24" fill="#ff6a13" stroke="#ffb070" stroke-width="3"/><circle cx="' + x + '" cy="' + y + '" r="16" fill="none" stroke="#7a2a00" stroke-width="2"/><text x="' + x + '" y="' + (y + 6) + '" text-anchor="middle" font-size="18" font-weight="800" fill="#7a2a00">R</text>';
-            const pos = lv === 2 ? [[80, 116], [120, 116], [160, 116], [100, 88], [140, 88], [120, 60]] : [[100, 112], [140, 112], [120, 82]];
-            return svgWrap(pos.map(([x, y]) => coin(x, y)).join(""));
-          }
+          coin: () => svgWrap('<defs><linearGradient id="tc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0dc"/><stop offset=".5" stop-color="#ff8a3d"/><stop offset="1" stop-color="#b34200"/></linearGradient></defs><circle cx="120" cy="80" r="56" fill="#e8590c" stroke="#ffb070" stroke-width="4"/><circle cx="120" cy="80" r="43" fill="none" stroke="#7a2a00" stroke-width="2.5"/><text x="120" y="98" text-anchor="middle" font-size="46" font-weight="800" letter-spacing="-1" fill="url(#tc)" stroke="#7a2a00" stroke-width="1.2">RQ</text>')
         };
         const artFor = (p) => shopArt[p.art[0]](p.art[1]);
 
@@ -1653,14 +1706,20 @@
           const isAr = () => document.documentElement.lang === "ar";
           const L = () => labels[isAr() ? "ar" : "en"];
           const tr = (p, k) => (isAr() ? p[k] : p.en[k]);
-          const cur = () => (isAr() ? "ر.س" : "SAR");
+          const curKey = (k) => (k === "USD" ? (isAr() ? "دولار" : "USD") : (isAr() ? "ريال" : "SAR"));
+          const curOf = (p) => curKey(p.cur);
+          const totalStr = () => {
+            const sums = {};
+            cart.forEach((c) => { const p = shopData[c.i]; sums[p.cur] = (sums[p.cur] || 0) + p.price; });
+            return ["USD", "SAR"].filter((k) => sums[k]).map((k) => nf.format(sums[k]) + " " + curKey(k)).join(" + ");
+          };
           const nf = new Intl.NumberFormat("en-US");
-          let cart = [], category = "", term = "", sort = "featured", toastTimer = 0, pending = null;
+          let cart = [], category = "coin", term = "", sort = "featured", toastTimer = 0, pending = null;
           try {
-            const saved = JSON.parse(localStorage.getItem("recoil-cart") || "[]");
+            const saved = JSON.parse(localStorage.getItem("recoil-cart-v2") || "[]");
             if (Array.isArray(saved)) cart = saved.filter((c) => c && shopData[c.i] && typeof c.id === "string");
           } catch (e) { cart = []; }
-          const save = () => { try { localStorage.setItem("recoil-cart", JSON.stringify(cart)); } catch (e) {} };
+          const save = () => { try { localStorage.setItem("recoil-cart-v2", JSON.stringify(cart)); } catch (e) {} };
           const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
 
           const say = (text) => { toast.textContent = text; toast.hidden = false; void toast.offsetWidth; toast.classList.add("show"); clearTimeout(toastTimer); toastTimer = setTimeout(() => { toast.classList.remove("show"); toastTimer = setTimeout(() => { toast.hidden = true; }, 300); }, 2400); };
@@ -1682,12 +1741,12 @@
           };
 
           function drawCart() {
-            const count = cart.length, sum = cart.reduce((n, c) => n + shopData[c.i].price, 0);
+            const count = cart.length;
             document.querySelectorAll("[data-cart-count], [data-fab-count]").forEach((b) => { b.textContent = count; });
             const badge = $(".st-cart-btn [data-cart-count]");
             if (count) { badge.classList.remove("bump"); void badge.offsetWidth; badge.classList.add("bump"); }
             fab.hidden = count === 0;
-            $("[data-fab-total]").textContent = nf.format(sum) + " " + cur();
+            $("[data-fab-total]").textContent = totalStr();
             items.textContent = "";
             grouped().forEach(({ c, n }) => {
               const p = shopData[c.i];
@@ -1710,12 +1769,12 @@
                 info.append(qty);
               }
               const line = el("div", "st-line");
-              line.append(el("span", "st-num", nf.format(p.price * n)), el("span", "st-cur", cur()));
+              line.append(el("span", "st-num", nf.format(p.price * n)), el("span", "st-cur", curOf(p)));
               row.append(thumb, info, line);
               items.appendChild(row);
             });
-            $("[data-cart-total]").textContent = nf.format(sum);
-            $("[data-cart-cur]").textContent = cur();
+            $("[data-cart-total]").textContent = totalStr();
+            $("[data-cart-cur]").textContent = "";
             $("[data-cart-empty]").hidden = count > 0;
             $("[data-cart-foot]").hidden = count === 0;
           }
@@ -1751,22 +1810,58 @@
           $("[data-pick-cancel]").addEventListener("click", () => { pending = null; layer(pickEl, false); });
           pickEl.addEventListener("click", (e) => { if (e.target === pickEl) { pending = null; layer(pickEl, false); } });
 
+          // Coin showcase: a metal coin in the middle, offers around it.
+          const stage = $("[data-coin-stage]");
+          let stageKey = "";
+          const coinArt = (id) => '<svg class="coin-art" viewBox="0 0 200 200" aria-hidden="true"><defs><path id="' + id + '-p" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"/><linearGradient id="' + id + '-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0dc"/><stop offset=".5" stop-color="#ff8a3d"/><stop offset="1" stop-color="#b34200"/></linearGradient></defs><circle cx="100" cy="100" r="95" fill="none" stroke="rgba(60,25,3,.55)" stroke-width="2"/><circle cx="100" cy="100" r="93" fill="none" stroke="rgba(255,235,200,.55)" stroke-width="1"/><circle cx="100" cy="100" r="73" fill="rgba(70,30,4,.16)" stroke="rgba(60,25,3,.55)" stroke-width="2"/><circle cx="100" cy="100" r="71" fill="none" stroke="rgba(255,235,200,.5)" stroke-width="1"/><text font-size="11" font-weight="800" fill="rgba(90,30,0,.85)"><textPath href="#' + id + '-p" textLength="536" lengthAdjust="spacing">RECOIL \u2022 COINS \u2022 RECOIL \u2022 COINS \u2022 RECOIL \u2022</textPath></text><g font-family="Arial,sans-serif" font-weight="800" font-size="70" letter-spacing="-2" text-anchor="middle"><text x="101.5" y="126" fill="rgba(80,25,0,.75)">RQ</text><text x="98.5" y="123" fill="rgba(255,240,220,.9)">RQ</text><text x="100" y="124.5" fill="url(#' + id + '-g)">RQ</text></g></svg>';
+          const SPARKS = [[18, 24, 0, 3.6], [30, 14, 1.1, 4.2], [44, 8, 2.2, 3.8], [58, 12, 0.6, 4.4], [72, 22, 1.7, 3.5], [82, 30, 2.8, 4]];
+          if (window.IntersectionObserver) new IntersectionObserver((en) => stage.classList.toggle("paused", !en[0].isIntersecting), { threshold: 0.05 }).observe(stage);
+          function drawStage(coinList) {
+            const key = (isAr() ? "ar" : "en") + coinList.map((c) => c[1]).join(",");
+            if (key === stageKey) return;
+            stageKey = key;
+            stage.textContent = "";
+            stage.hidden = coinList.length === 0;
+            if (!coinList.length) return;
+            const sorted = coinList.slice().sort((a, b) => a[0].price - b[0].price);
+            const best = sorted.find((c) => c[0].best), rest = sorted.filter((c) => !c[0].best), half = Math.ceil(rest.length / 2);
+            const offer = ([p, i], n, isBest) => {
+              const b = el("button", "offer" + (isBest ? " offer-best" : "")); b.type = "button"; b.style.setProperty("--i", n);
+              if (isBest) b.append(el("span", "offer-tag", L().bestOffer));
+              const amt = el("span", "offer-amt", nf.format(p.coins)); amt.append(el("small", "", "coin"));
+              b.append(amt, el("span", "offer-price", nf.format(p.price) + " " + curOf(p)));
+              b.addEventListener("click", () => { addEntry(i, ""); say(tr(p, "name") + " \u2713"); });
+              return b;
+            };
+            const wrap = el("div", "coin-wrap"); wrap.setAttribute("aria-hidden", "true");
+            const edge = Array.from({ length: 11 }, (_, k) => '<i style="transform:translateZ(' + (k - 5) * 2 + 'px)"></i>').join("");
+            const sparks = SPARKS.map((s) => '<span class="spark" style="left:' + s[0] + '%;bottom:' + s[1] + '%;animation-delay:' + s[2] + 's;animation-duration:' + s[3] + 's"></span>').join("");
+            wrap.innerHTML = '<div class="coin-halo"></div><div class="coin-orbit"><i></i><i></i></div><div class="coin-orbit rev"></div><div class="coin-float"><div class="coin"><div class="coin-edge">' + edge + '</div><div class="coin-face front">' + coinArt("cf") + '</div><div class="coin-face back">' + coinArt("cb") + '</div></div></div>' + sparks;
+            const colA = el("div", "offers offers-a"), colB = el("div", "offers offers-b");
+            rest.forEach((o, k) => (k < half ? colA : colB).appendChild(offer(o, k, false)));
+            const layout = el("div", "coin-layout"); layout.append(wrap, colA, colB);
+            if (best) layout.append(offer(best, rest.length, true));
+            stage.appendChild(layout);
+          }
+
           function drawGrid() {
             grid.textContent = "";
-            const list = shopData.map((p, i) => [p, i]).filter(([p]) => (!category || p.cat === category) && (!term || (p.name + " " + p.en.name).toLowerCase().includes(term)));
+            const list = shopData.map((p, i) => [p, i]).filter(([p]) => (!category || term || p.cat === category) && (!term || (p.name + " " + p.en.name).toLowerCase().includes(term)));
             if (sort === "low") list.sort((a, b) => a[0].price - b[0].price);
             if (sort === "high") list.sort((a, b) => b[0].price - a[0].price);
+            drawStage(list.filter(([p]) => p.cat === "coin"));
+            const gridList = list.filter(([p]) => p.cat !== "coin");
             empty.hidden = list.length > 0;
             countEl.textContent = list.length ? L().shopResults + ": " + list.length : "";
             const featuredOn = !category && !term && sort === "featured";
-            list.forEach(([p, i], n) => {
-              const card = el("article", "st-card" + (featuredOn && n === 0 ? " is-featured" : ""));
+            gridList.forEach(([p, i], n) => {
+              const card = el("article", "st-card" + (featuredOn && p.featured ? " is-featured" : ""));
               card.style.animationDelay = (n * 0.05) + "s";
               const art = el("div", "st-art"); art.innerHTML = artFor(p);
               art.prepend(el("span", "st-tag", tr(p, "tag")));
               if (p.oldPrice) art.append(el("span", "st-tag st-off", "\u200E-" + Math.round((1 - p.price / p.oldPrice) * 100) + "%"));
               const price = el("div", "st-price");
-              price.append(el("span", "st-num", nf.format(p.price)), el("span", "st-cur", cur()));
+              price.append(el("span", "st-num", nf.format(p.price)), el("span", "st-cur", curOf(p)));
               if (p.oldPrice) price.append(el("del", "st-old", nf.format(p.oldPrice)));
               const add = el("button", "st-btn", p.pick ? L().pickCta : L().addCart); add.type = "button";
               add.addEventListener("click", () => {
@@ -1794,7 +1889,6 @@
               b.addEventListener("click", () => { category = value; drawTabs(); drawGrid(); });
               tabs.appendChild(b);
             };
-            make("", L().shopAll, shopData.length);
             Object.keys(catLabels).forEach((k) => make(k, catLabels[k][isAr() ? "ar" : "en"], shopData.filter((p) => p.cat === k).length));
           }
 
@@ -1807,10 +1901,9 @@
           const summary = () => {
             const lines = grouped().map(({ c, n }) => {
               const p = shopData[c.i];
-              return "• " + tr(p, "name") + (c.id ? " (" + c.id + ")" : "") + (n > 1 ? " ×" + n : "") + " — " + nf.format(p.price * n) + " " + cur();
+              return "• " + tr(p, "name") + (c.id ? " (" + c.id + ")" : "") + (n > 1 ? " ×" + n : "") + " — " + nf.format(p.price * n) + " " + curOf(p);
             });
-            const sum = cart.reduce((n, c) => n + shopData[c.i].price, 0);
-            return "RECOIL FIGHT\n" + lines.join("\n") + "\n" + L().cartTotal + ": " + nf.format(sum) + " " + cur();
+            return "RECOIL FIGHT\n" + lines.join("\n") + "\n" + L().cartTotal + ": " + totalStr();
           };
 
           searchEl.addEventListener("input", (e) => { term = e.target.value.trim().toLowerCase(); drawGrid(); });
